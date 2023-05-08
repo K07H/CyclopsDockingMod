@@ -1,0 +1,170 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>CyclopsDockingMod</AssemblyName>
+    <Description>A mod for Subnautica that adds a docking base piece to dock your Cyclops. Also adds Cyclops autopilot feature.</Description>
+    <Version>2.0.8</Version>
+    <Authors>OSubMarin (contact@osubmarin.fr)</Authors>
+    <Company>LC-IT S.</Company>
+    <Product>CyclopsDockingMod</Product>
+    <Title>CyclopsDockingMod</Title>
+    <PackageId>CyclopsDockingMod</PackageId>
+    <Copyright>Copyright © 2019-2023. Tous droits réservés.</Copyright>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <LangVersion>latest</LangVersion>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CyclopsDockingMod</RootNamespace>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <Configurations>Debug;Release;DebugLegacy;ReleaseLegacy</Configurations>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;SUBNAUTICA;SUBNAUTICA_EXP;DEBUG_CURSOR_LOCK;DEBUG_AUTOPILOT_CLICK;DEBUG_CYCLOPS_HUD</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <SubnauticaDir>H:\SteamLibrary\steamapps\common\Subnautica</SubnauticaDir>
+    <Dependencies>$(SubnauticaDir)\Subnautica_Data\Managed</Dependencies>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugLegacy|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;SUBNAUTICA</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <SubnauticaDir>H:\SteamLibrary\steamapps\common\Subnautica</SubnauticaDir>
+    <Dependencies>$(SubnauticaDir)\Subnautica_Data\Managed</Dependencies>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>SUBNAUTICA;SUBNAUTICA_EXP;DEBUG_BEPINEX_CONFIG</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>2</WarningLevel>
+    <SubnauticaDir>H:\SteamLibrary\steamapps\common\Subnautica</SubnauticaDir>
+    <Dependencies>$(SubnauticaDir)\Subnautica_Data\Managed</Dependencies>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseLegacy|AnyCPU'">
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>SUBNAUTICA</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>2</WarningLevel>
+    <SubnauticaDir>H:\SteamLibrary\steamapps\common\Subnautica</SubnauticaDir>
+    <Dependencies>$(SubnauticaDir)\Subnautica_Data\Managed</Dependencies>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="BepInEx">
+      <HintPath>$(SubnauticaDir)\BepInEx\core\BepInEx.dll</HintPath>
+    </Reference>
+    <Reference Include="0Harmony">
+      <HintPath>$(SubnauticaDir)\BepInEx\core\0Harmony.dll</HintPath>
+    </Reference>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>$(Dependencies)\Assembly-CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Assembly-CSharp-firstpass">
+      <HintPath>$(Dependencies)\Assembly-CSharp-firstpass.dll</HintPath>
+    </Reference>
+    <Reference Include="SMLHelper">
+      <HintPath>$(SubnauticaDir)\BepInEx\plugins\Modding Helper\SMLHelper.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine">
+      <HintPath>$(Dependencies)\UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.AnimationModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>$(Dependencies)\UnityEngine.AnimationModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.AssetBundleModule">
+      <HintPath>$(Dependencies)\UnityEngine.AssetBundleModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>$(Dependencies)\UnityEngine.CoreModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.InputLegacyModule">
+      <HintPath>$(Dependencies)\UnityEngine.InputLegacyModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.PhysicsModule">
+      <HintPath>$(Dependencies)\UnityEngine.PhysicsModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.TextRenderingModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>$(Dependencies)\UnityEngine.TextRenderingModule.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.TextMeshPro">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>$(Dependencies)\Unity.TextMeshPro.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UI, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>$(Dependencies)\UnityEngine.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.ResourceManager">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>$(Dependencies)\Unity.ResourceManager.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.IMGUIModule">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>$(Dependencies)\UnityEngine.IMGUIModule.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssetsHelper.cs" />
+    <Compile Include="BaseItem.cs" />
+    <Compile Include="BasePart.cs" />
+    <Compile Include="BasePieceConfig.cs" />
+    <Compile Include="ConfigOptions.cs" />
+    <Compile Include="Controllers\LadderController.cs" />
+    <Compile Include="Controllers\LoopRefreshEnergyController.cs" />
+    <Compile Include="Controllers\RecordRouteController.cs" />
+    <Compile Include="Controllers\RefreshEnergyController.cs" />
+    <Compile Include="Controllers\SignController.cs" />
+    <Compile Include="CyclopsDockingMod.cs" />
+    <Compile Include="CyclopsDockingMod_EntryPoint.cs" />
+    <Compile Include="CyclopsHatchConnector.cs" />
+    <Compile Include="FastHelper.cs" />
+    <Compile Include="FilesHelper.cs" />
+    <Compile Include="Fixers\BaseFixer.cs" />
+    <Compile Include="Fixers\BaseGhostFixer.cs" />
+    <Compile Include="Fixers\BuilderFixer.cs" />
+    <Compile Include="Fixers\BuilderToolFixer.cs" />
+    <Compile Include="Fixers\CinematicModeTriggerBaseFixer.cs" />
+    <Compile Include="Fixers\ConstructableFixer.cs" />
+    <Compile Include="Fixers\CyclopsEngineChangeStateFixer.cs" />
+    <Compile Include="Fixers\CyclopsEntryHatchFixer.cs" />
+    <Compile Include="Fixers\CyclopsHelmHUDManagerFixer.cs" />
+    <Compile Include="Fixers\IngameMenuFixer.cs" />
+    <Compile Include="Fixers\MainMenuLoadButtonFixer.cs" />
+    <Compile Include="Fixers\MySignFixerComponent.cs" />
+    <Compile Include="Fixers\MyuGUI_SignInputFixer.cs" />
+    <Compile Include="Fixers\StabilizerFixer.cs" />
+    <Compile Include="Fixers\SubControlFixer.cs" />
+    <Compile Include="Fixers\SubRootFixer.cs" />
+    <Compile Include="Fixers\uGUI_BuilderMenuFixer.cs" />
+    <Compile Include="Fixers\uGUI_MainMenuFixer.cs" />
+    <Compile Include="Fixers\UtilsFixer.cs" />
+    <Compile Include="IBaseItem.cs" />
+    <Compile Include="Logger.cs" />
+    <Compile Include="Routing\AutoPilot.cs" />
+    <Compile Include="Routing\MyInputField.cs" />
+    <Compile Include="Routing\Route.cs" />
+    <Compile Include="Routing\SubRoutePlaying.cs" />
+    <Compile Include="StylesHelper.cs" />
+    <Compile Include="UI\CyclopsDockingModUI.cs" />
+  </ItemGroup>
+</Project>
