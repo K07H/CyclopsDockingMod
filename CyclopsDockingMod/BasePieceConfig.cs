@@ -1,37 +1,35 @@
-﻿using UnityEngine;
+﻿namespace CyclopsDockingMod;
+using UnityEngine;
 
-namespace CyclopsDockingMod
+public class BasePieceConfig
 {
-	public class BasePieceConfig
+    public bool XShape;
+
+    public bool TShape;
+
+    public bool IShape;
+
+    public Quaternion Rotation;
+
+    private BasePieceConfig()
     {
-        public bool XShape;
+    }
 
-        public bool TShape;
+    public BasePieceConfig(bool xShape, bool tShape, bool iShape, Quaternion rotation)
+    {
+        this.XShape = xShape;
+        this.TShape = tShape;
+        this.IShape = iShape;
+        this.Rotation = rotation;
+    }
 
-        public bool IShape;
+    public bool IsValid()
+    {
+        return this.IShape || this.TShape || this.XShape;
+    }
 
-        public Quaternion Rotation;
-
-        private BasePieceConfig()
-		{
-		}
-
-		public BasePieceConfig(bool xShape, bool tShape, bool iShape, Quaternion rotation)
-		{
-			this.XShape = xShape;
-			this.TShape = tShape;
-			this.IShape = iShape;
-			this.Rotation = rotation;
-		}
-
-		public bool IsValid()
-		{
-			return this.IShape || this.TShape || this.XShape;
-		}
-
-		public void SetSquare(Quaternion o)
-		{
-			this.Rotation = o * o;
-		}
-	}
+    public void SetSquare(Quaternion o)
+    {
+        this.Rotation = o * o;
+    }
 }

@@ -1,16 +1,13 @@
-﻿using UnityEngine;
+﻿namespace CyclopsDockingMod;
+using UnityEngine;
 
-namespace CyclopsDockingMod
+public interface IBaseItem
 {
-    public interface IBaseItem
-    {
-        string ClassID { get; }
-        string PrefabFileName { get; }
-        TechType TechType { get; }
-        GameObject GameObject { get; set; }
+    string ClassID { get; }
+    string PrefabFileName { get; }
+    TechType TechType { get; }
+    GameObject GameObject { get; set; }
 
-        GameObject GetGameObject();
-        void RegisterItem();
-    }
-
+    GameObject GetGameObject();
+    void RegisterItem();
 }

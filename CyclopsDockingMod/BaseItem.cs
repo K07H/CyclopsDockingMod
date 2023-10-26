@@ -1,32 +1,48 @@
-﻿using UnityEngine;
+﻿namespace CyclopsDockingMod;
 
-namespace CyclopsDockingMod
+using Nautilus.Assets;
+using Nautilus.Crafting;
+using Nautilus.Handlers;
+using UnityEngine;
+
+public abstract class BaseItem: IBaseItem
 {
-    public abstract class BaseItem : SMLHelper.V2.Assets.ModPrefab, IBaseItem
+    protected BaseItem() 
     {
-        protected BaseItem() : base("", "") { }
 
-        public const string DefaultResourcePath = "WorldEntities/Environment/Wrecks/";
+    }
 
-        public bool IsRegistered = false;
+    public const string DefaultResourcePath = "WorldEntities/Environment/Wrecks/";
 
-        public bool IsHabitatBuilder = false;
+    public bool IsRegistered = false;
 
-        public GameObject GameObject { get; set; }
+    public bool IsHabitatBuilder = false;
 
-        public SMLHelper.V2.Crafting.TechData Recipe { get; set; }
+    public GameObject GameObject { get; set; }
 
-        public virtual void RegisterItem()
+    public RecipeData Recipe { get; set; }
+
+    public virtual string ClassID { get; set; }
+
+    public virtual string PrefabFileName { get; set; }
+
+    public virtual TechType TechType { get; set; }
+
+    public virtual void RegisterItem()
+    {
+        if (!this.IsRegistered && this.GameObject != null)
         {
-            if (this.IsRegistered == false && this.GameObject != null)
-            {
-                if (this.Recipe != null)
-                    SMLHelper.V2.Handlers.CraftDataHandler.SetTechData(this.TechType, this.Recipe);
+            if (this.Recipe != null)
+                CraftDataHandler.SetRecipeData(this.TechType, this.Recipe);
 
-                SMLHelper.V2.Handlers.PrefabHandler.RegisterPrefab(this);
+            var info = new PrefabInfo(ClassID, PrefabFileName, TechType);
 
-                this.IsRegistered = true;
-            }
+            var customPrefab = new CustomPrefab(info);
+            customPrefab.SetGameObject(GetGameObject);
+            customPrefab.Register();
+            this.IsRegistered = true;
         }
     }
+
+    public abstract GameObject GetGameObject();
 }
