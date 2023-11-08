@@ -4,29 +4,19 @@
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 		<AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
 		<OutputPath>$(SolutionDir)bin\$(Configuration)\$(ProjectName)\</OutputPath>
+		<Configurations>Subnautica;Subnautica_Debug</Configurations>
 		<LangVersion>11</LangVersion>
 	</PropertyGroup>
-	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-		<DebugSymbols>true</DebugSymbols>
-		<DebugType>full</DebugType>
-		<Optimize>false</Optimize>
-		<DefineConstants>TRACE;DEBUG;SUBNAUTICA;SUBNAUTICA_EXP;DEBUG_CURSOR_LOCK;DEBUG_AUTOPILOT_CLICK;DEBUG_CYCLOPS_HUD</DefineConstants>
-	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugLegacy|AnyCPU'">
-		<DebugSymbols>true</DebugSymbols>
-		<DebugType>full</DebugType>
-		<Optimize>false</Optimize>
-		<DefineConstants>TRACE;DEBUG;SUBNAUTICA</DefineConstants>
-	</PropertyGroup>
-	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+	<PropertyGroup Condition=" '$(Configuration)' == 'Subnautica' ">
 		<DebugType>none</DebugType>
 		<Optimize>true</Optimize>
 		<DefineConstants>SUBNAUTICA;SUBNAUTICA_EXP;DEBUG_BEPINEX_CONFIG</DefineConstants>
 	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseLegacy|AnyCPU'">
-		<DebugType>none</DebugType>
-		<Optimize>true</Optimize>
-		<DefineConstants>SUBNAUTICA</DefineConstants>
+	<PropertyGroup Condition=" '$(Configuration)' == 'Subnautica_Debug' ">
+		<DebugSymbols>true</DebugSymbols>
+		<DebugType>full</DebugType>
+		<Optimize>false</Optimize>
+		<DefineConstants>TRACE;DEBUG;SUBNAUTICA;SUBNAUTICA_EXP;DEBUG_CURSOR_LOCK;DEBUG_AUTOPILOT_CLICK;DEBUG_CYCLOPS_HUD</DefineConstants>
 	</PropertyGroup>
 	<ItemDefinitionGroup>
 		<PackageReference ExcludeAssets="runtime" />

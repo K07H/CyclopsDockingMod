@@ -1,0 +1,83 @@
+ManifestFileVersion: 0
+CRC: 1729042900
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: c182b0efd0da4ef6ba540c6548fcd4cb
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: d4c2eb5248c2310b61559290c81a2f34
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 23
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 33
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 74
+  Script: {instanceID: 0}
+- Class: 91
+  Script: {instanceID: 0}
+- Class: 95
+  Script: {instanceID: 0}
+- Class: 111
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 12001, guid: 0000000000000000e000000000000000, type: 0}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 128
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/routeiconlr1.png
+- Assets/dockingarms/Textures/submarine_launch_bay_01_02_normal_207.png
+- Assets/confirmrouteicon1.png
+- Assets/slider_thumb1.png
+- Assets/slider_thumb3.png
+- Assets/helmicon2.png
+- Assets/editrouteicon1.png
+- Assets/rightarrow_active.png
+- Assets/routeiconlr2.png
+- Assets/toggle_active.png
+- Assets/bg_dark2.png
+- Assets/toggle_hover.png
+- Assets/editrouteicon2.png
+- Assets/leftarrow_normal.png
+- Assets/btn_hover.png
+- Assets/helmbg2.png
+- Assets/toggle_normal.png
+- Assets/removerouteicon1.png
+- Assets/btn_hover2.png
+- Assets/rightarrow_hover.png
+- Assets/toggle_on_active.png
+- Assets/btn_normal.png
+- Assets/dockingarms/Textures/submarine_launch_bay_01_02_241_illumb.png
+- Assets/leftarrow_active.png
+- Assets/slider_thumb2.png
+- Assets/confirmrouteicon2.png
+- Assets/CyclopsDockingHatchIconG.png
+- Assets/btn_active.png
+- Assets/helmicon1.png
+- Assets/CyclopsDockingHatchClean.prefab
+- Assets/OSubMarinGUISkin.guiskin
+- Assets/slider2.png
+- Assets/removerouteicon2.png
+- Assets/bg_light3.png
+- Assets/helmbg1.png
+- Assets/leftarrow_hover.png
+- Assets/rightarrow_normal.png
+Dependencies: []

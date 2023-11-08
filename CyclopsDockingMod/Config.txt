@@ -1,0 +1,153 @@
+﻿# ------------------------------
+# GENERAL SETTINGS
+# ------------------------------
+
+# The line below defines the key to open Cyclops Docking mod settings in game. Possible values: A valid KeyCode string (attention: keys combination is not allowed). You can get the list of valid KeyCode strings here: https://docs.unity3d.com/ScriptReference/KeyCode.html
+openModSettingsKey=F7
+
+# The line below defines the charge speed for Cyclops powercells (when it is docked to a base with energy). Possible values: A digit between 1 and 100.
+powercellsChargeSpeed=25
+
+# The line below defines the distance (in meters) at which the automatic docking procedure will trigger. Possible values: A digit between 10 and 50.
+autoDockingRange=13
+
+# The line below defines if docking is manual (true) or automatic (false). Possible values: True or False.
+enableManualDocking=False
+
+# The line below defines the key to initiate a manual docking procedure. Possible values: The representation of the keyboard/controller key.
+manualDockingKey=O
+
+# The line below defines the tint color that will be applied to the ladder inside docking corridor. Possible values: A digit between 0 and 9 (0=None, 1=Cyan, 2=Black, 3=White, 4=Red, 5=Yellow, 6=Green, 7=Blue, 8=Purple, 9=Pink).
+ladderTintColor=0
+
+# The line below defines if simplified docking maneuver is used (true) or not (false). Set this to True only if you have difficulties to dock correctly. Possible values: True or False.
+simpleDockingManeuver=False
+
+# The line below defines the ingredients required to build the Cyclops docking base piece. Possible values: A list of tech type names separated with commas (attention: maximum 300 characters, requires minimum one tech type name).
+basePieceRecipe=Titanium,Titanium,Titanium,Lubricant,Lead
+
+# The line below defines if Cyclops auto-pilot feature is enabled (true) or not (false). Possible values: True or False.
+enableAutoPilotFeature=True
+
+
+
+# ------------------------------
+# SIGNS DEFAULT CONFIGURATION
+# ------------------------------
+
+# The line below defines the default size for the text inside the docking corridor. Possible values: A digit between -3 and 3.
+defaultTextSize=1
+
+# The line below defines the default color for the text inside the docking corridor. Possible values: A digit between 0 and 7 (0=Cyan, 1=Black, 2=White, 3=Red, 4=Yellow, 5=Green, 6=Blue, 7=Purple).
+defaultTextColor=4
+
+# The line below defines the default background for the text inside the docking corridor. Possible values: True (background visible) or False (background hidden).
+defaultBackground=True
+
+
+
+# ---------------------------
+# LANGUAGE STRINGS
+# ---------------------------
+
+# Text displayed inside the docking corridor when there is no Cyclops docked. Possible values: Any text, between 1 and 40 characters.
+noCyclopsText=No Cyclops docked
+
+# Text displayed inside the docking corridor when a Cyclops is docked. Possible values: Any text, between 1 and 40 characters (attention: don't remove the {0}, it will be replaced by the current Cyclops charge level in percents).
+cyclopsDockedText=Cyclops docked: Energy {0}%
+
+# Text displayed on the ladder inside the docking corridor. Possible values: Any text, between 1 and 40 characters.
+climbIntoCyclopsText=Climb into Cyclops
+
+# Name of the Cyclops docking base piece. Possible values: Any text, between 1 and 40 characters.
+basePieceName=Cyclops docking hatch
+
+# Description of the Cyclops docking base piece. Possible values: Any text, between 1 and 200 characters.
+basePieceDescription=A module for mooring the Cyclops to a base. Allows quick base/Cyclops transitions and recharges Cyclops powercells.
+
+
+
+# ---------------------------
+# AUTO-PILOT LANGUAGE STRINGS
+# ---------------------------
+
+# Text displayed when no route is selected. Possible values: Any text, between 1 and 80 characters.
+noRouteSelected=No route selected
+
+# Text displayed for creating a new route. Possible values: Any text, between 1 and 80 characters.
+createNewRoute=New route
+
+# Default name for newly created routes. Possible values: Any text, between 1 and 80 characters (attention: don't remove the {0}, it will be replaced by the route ID).
+defaultRouteName=Route {0}
+
+# Tooltip for the route selection button. Possible values: Any text, between 1 and 80 characters.
+btnSelectionTooltip=Change selection
+
+# Tooltip for the route renaming button. Possible values: Any text, between 1 and 80 characters.
+btnRenameRouteTooltip=Rename route
+
+# Tooltip for the start record button. Possible values: Any text, between 1 and 80 characters.
+btnStartRecordTooltip=Start recording route
+
+# Tooltip for the start auto-pilot button. Possible values: Any text, between 1 and 80 characters.
+btnStartAutoPilotTooltip=Start auto-pilot
+
+# Tooltip for the stop auto-pilot button. Possible values: Any text, between 1 and 80 characters.
+btnStopAutoPilotTooltip=Stop auto-pilot
+
+# Tooltip for the remove route button. Possible values: Any text, between 1 and 80 characters.
+btnRemoveRouteTooltip=Remove route
+
+# Tooltip for the confirm route removal button. Possible values: Any text, between 1 and 80 characters.
+btnConfirmRouteRemovalTooltip=Confirm route removal
+
+# Tooltip for the cancel route removal button. Possible values: Any text, between 1 and 80 characters.
+btnCancelRouteRemovalTooltip=Cancel route removal
+
+# Text displayed when selected route is not correct. Possible values: Any text, between 1 and 200 characters.
+selectRouteNotFound=Route not found: Please select another.
+
+# Text displayed when renaming route while recording. Possible values: Any text, between 1 and 200 characters.
+cannotRenameWhileRecording=Cannot rename route while recording.
+
+# Text displayed when changing route selection while auto-piloting. Possible values: Any text, between 1 and 200 characters.
+cannotChangeRouteWhilePiloting=Cannot change route while auto-piloting.
+
+# Text displayed when changing route selection while recording. Possible values: Any text, between 1 and 200 characters.
+cannotChangeRouteWhileRecording=Cannot change route while recording.
+
+# Text displayed when changing route selection when Cyclops is undocked. Possible values: Any text, between 1 and 200 characters.
+cannotChangeRouteWhileUndocked=Cyclops needs to be docked.
+
+# Text displayed when deleting route while auto-piloting. Possible values: Any text, between 1 and 200 characters.
+cannotRemoveRouteWhilePiloting=Cannot remove route while auto-piloting.
+
+# Text displayed when deleting route while recording. Possible values: Any text, between 1 and 200 characters.
+cannotRemoveRouteWhileRecording=Cannot remove route while recording.
+
+# Text displayed when renaming route while there is a pending route deletion operation. Possible values: Any text, between 1 and 200 characters.
+cannotRenameWhileRemoving=Cannot rename route (pending route removal).
+
+# Text displayed when changing route selection while there is a pending route deletion operation. Possible values: Any text, between 1 and 200 characters.
+cannotChangeRouteWhileRemoving=Cannot change route (pending route removal).
+
+# Text displayed when starting auto-pilot while there is a pending route deletion operation. Possible values: Any text, between 1 and 200 characters.
+cannotStartAutoPilotWhileRemoving=Cannot start auto-pilot (pending route removal).
+
+# Text displayed when auto-pilot starts. Possible values: Any text, between 1 and 80 characters (attention: don't remove the {0}, it will be replaced by the route name).
+autoPilotStart=Auto-pilot start: {0}
+
+# Text displayed when auto-pilot stops. Possible values: Any text, between 1 and 80 characters (attention: don't remove the {0}, it will be replaced by the route name).
+autoPilotStop=Auto-pilot stop: {0}
+
+# Text displayed when route recording starts. Possible values: Any text, between 1 and 200 characters.
+recordingRouteStart=Recording route...
+
+# Text displayed when route recording stops. Possible values: Any text, between 1 and 200 characters (attention: don't remove the {0}, it will be replaced by the route name).
+recordingRouteStop=Recording stopped: {0} created.
+
+# Text displayed when route recording has been cancelled. Possible values: Any text, between 1 and 200 characters.
+recordingRouteCancelled=Recording cancelled.
+
+# Text displayed when auto-pilot reaches route end. Possible values: Any text, between 1 and 80 characters.
+reachedRouteEnd=Reached route end.

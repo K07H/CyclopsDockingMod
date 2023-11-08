@@ -2,7 +2,9 @@
 	<PropertyGroup>
 		<AssemblyName>CyclopsDockingMod</AssemblyName>
 		<Description>A mod for Subnautica that adds a docking base piece to dock your Cyclops. Also adds Cyclops autopilot feature.</Description>
-		<Version>2.0.8</Version>
+		<BepInExPluginGuid>com.osubmarin.cyclopsdockingmod</BepInExPluginGuid>
+		<BepInExPluginName>CyclopsDockingMod (Purple Edition)</BepInExPluginName>
+		<Version>1.0.0</Version>
 		<Authors>OSubMarin (contact@osubmarin.fr)</Authors>
 		<Company>LC-IT S.</Company>
 		<Product>CyclopsDockingMod</Product>
@@ -15,4 +17,15 @@
 		<Deterministic>true</Deterministic>
 		<OutputPath>$(SolutionDir)bin\$(Configuration)\$(AssemblyName)\</OutputPath>
 	</PropertyGroup>
+	<ItemGroup>
+		<None Update="Assets\models.assets">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Assets\models.manifest">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Config.txt">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
 </Project>
