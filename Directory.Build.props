@@ -6,6 +6,9 @@
 		<OutputPath>$(SolutionDir)bin\$(Configuration)\$(ProjectName)\</OutputPath>
 		<Configurations>Subnautica;Subnautica_Debug</Configurations>
 		<LangVersion>11</LangVersion>
+		<RestoreAdditionalProjectSources>
+			https://nuget.bepinex.dev/v3/index.json
+		</RestoreAdditionalProjectSources>
 	</PropertyGroup>
 	<PropertyGroup Condition=" '$(Configuration)' == 'Subnautica' ">
 		<DebugType>none</DebugType>
