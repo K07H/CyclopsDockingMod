@@ -8,17 +8,23 @@ EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		DebugSML|Any CPU = DebugSML|Any CPU
 		DebugLegacy|Any CPU = DebugLegacy|Any CPU
 		Release|Any CPU = Release|Any CPU
+		ReleaseSML|Any CPU = ReleaseSML|Any CPU
 		ReleaseLegacy|Any CPU = ReleaseLegacy|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{98959DE3-D74C-4CDB-8583-A720BF07F997}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{98959DE3-D74C-4CDB-8583-A720BF07F997}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98959DE3-D74C-4CDB-8583-A720BF07F997}.DebugSML|Any CPU.ActiveCfg = DebugSML|Any CPU
+		{98959DE3-D74C-4CDB-8583-A720BF07F997}.DebugSML|Any CPU.Build.0 = DebugSML|Any CPU
 		{98959DE3-D74C-4CDB-8583-A720BF07F997}.DebugLegacy|Any CPU.ActiveCfg = DebugLegacy|Any CPU
 		{98959DE3-D74C-4CDB-8583-A720BF07F997}.DebugLegacy|Any CPU.Build.0 = DebugLegacy|Any CPU
 		{98959DE3-D74C-4CDB-8583-A720BF07F997}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{98959DE3-D74C-4CDB-8583-A720BF07F997}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98959DE3-D74C-4CDB-8583-A720BF07F997}.ReleaseSML|Any CPU.ActiveCfg = ReleaseSML|Any CPU
+		{98959DE3-D74C-4CDB-8583-A720BF07F997}.ReleaseSML|Any CPU.Build.0 = ReleaseSML|Any CPU
 		{98959DE3-D74C-4CDB-8583-A720BF07F997}.ReleaseLegacy|Any CPU.ActiveCfg = ReleaseLegacy|Any CPU
 		{98959DE3-D74C-4CDB-8583-A720BF07F997}.ReleaseLegacy|Any CPU.Build.0 = ReleaseLegacy|Any CPU
 	EndGlobalSection

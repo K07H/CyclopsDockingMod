@@ -1,7 +1,15 @@
 ﻿using System.Collections.Generic;
 using CyclopsDockingMod.Fixers;
+#if SUBNAUTICA_NAUTILUS
+using System.Diagnostics.CodeAnalysis;
+using Nautilus.Assets;
+using Nautilus.Crafting;
+using Nautilus.Handlers;
+using static CraftData;
+#else
 using SMLHelper.V2.Crafting;
 using SMLHelper.V2.Handlers;
+#endif
 using UnityEngine;
 
 namespace CyclopsDockingMod
@@ -23,6 +31,10 @@ namespace CyclopsDockingMod
 
         public const string ModelName = "CyclopsDockingHatchClean";
 
+#if SUBNAUTICA_NAUTILUS
+        public static string CyclopsHatchConnectorClassID = "CyclopsHatchConnector";
+
+#endif
         public static string CyclopsHatchConnectorName = "Cyclops docking hatch";
 
         public static string CyclopsHatchConnectorDescription = "A module for mooring the Cyclops to a base. Allows quick base/Cyclops transitions and recharges Cyclops powercells.";
@@ -43,15 +55,30 @@ namespace CyclopsDockingMod
             UNDOCKED
         }
 
+#if SUBNAUTICA_NAUTILUS
+        [SetsRequiredMembers]
+        public CyclopsHatchConnector() : base(
+			PrefabInfo.WithTechType(CyclopsHatchConnectorClassID, CyclopsHatchConnectorName, CyclopsHatchConnectorDescription, unlockAtStart: true)
+			.WithFileName("WorldEntities/Environment/Wrecks/" + CyclopsHatchConnectorClassID)
+			.WithIcon(AssetsHelper.Assets.LoadAsset<Sprite>("CyclopsDockingHatchIconG"))
+			)
+		{
+			base.GameObject = new GameObject(base.ClassID);
+#else
         public CyclopsHatchConnector()
 		{
 			base.ClassID = "CyclopsHatchConnector";
 			base.PrefabFileName = "WorldEntities/Environment/Wrecks/" + base.ClassID;
 			base.GameObject = new GameObject(base.ClassID);
 			base.TechType = TechTypeHandler.AddTechType(base.ClassID, CyclopsHatchConnector.CyclopsHatchConnectorName, CyclopsHatchConnector.CyclopsHatchConnectorDescription, true);
+#endif
 			CyclopsDockingMod.CyclopsHatchConnector = base.TechType;
 			this.IsHabitatBuilder = true;
+#if SUBNAUTICA_NAUTILUS
+			base.Recipe = new RecipeData
+#else
 			base.Recipe = new TechData
+#endif
 			{
 				craftAmount = 1,
 				Ingredients = this.SortIngredients()
@@ -83,11 +110,19 @@ namespace CyclopsDockingMod
 		{
 			if (!this.IsRegistered)
 			{
+#if SUBNAUTICA_NAUTILUS
+				CraftDataHandler.SetRecipeData(base.TechType, base.Recipe);
+#else
 				CraftDataHandler.SetTechData(base.TechType, base.Recipe);
+#endif
 				CraftDataHandler.AddBuildable(base.TechType);
 				CraftDataHandler.AddToGroup(TechGroup.BasePieces, TechCategory.BasePiece, base.TechType);
+#if SUBNAUTICA_NAUTILUS
+				this.Register();
+#else
 				PrefabHandler.RegisterPrefab(this);
 				SpriteHandler.RegisterSprite(base.TechType, AssetsHelper.Assets.LoadAsset<Sprite>("CyclopsDockingHatchIconG"));
+#endif
 				this.IsRegistered = true;
 			}
 		}
