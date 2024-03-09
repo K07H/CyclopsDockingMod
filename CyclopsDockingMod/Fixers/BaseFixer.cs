@@ -64,13 +64,13 @@ namespace CyclopsDockingMod.Fixers
 			{
 				if (!Directory.Exists(saveFolderPath))
 				{
-					Logger.Log("INFO: No save directory found for base parts at \"" + saveFolderPath + "\".");
+					Logger.Info("No save directory found for base parts at \"" + saveFolderPath + "\".");
 					return;
 				}
 				string text = FilesHelper.Combine(saveFolderPath, "baseparts.txt");
 				if (File.Exists(text))
 				{
-					Logger.Log("INFO: Loading base parts from \"" + text + "\".");
+					Logger.Info("Loading base parts from \"" + text + "\".");
 					string[] array;
 					try
 					{
@@ -78,7 +78,7 @@ namespace CyclopsDockingMod.Fixers
 					}
 					catch (System.Exception ex)
 					{
-						Logger.Log("ERROR: Exception caught while loading base parts. Exception=[" + ex.ToString() + "]");
+						Logger.Error("Exception caught while loading base parts. Exception=[" + ex.ToString() + "]");
 						return;
 					}
 					if (array != null && array.Length != 0)
@@ -111,15 +111,15 @@ namespace CyclopsDockingMod.Fixers
 							}
 						}
 					}
-					Logger.Log("INFO: Base parts loaded. Player built {0} custom base parts.", new object[] { BaseFixer.BaseParts.Count });
+					Logger.Info("Base parts loaded. Player built {0} custom base parts.", new object[] { BaseFixer.BaseParts.Count });
 					return;
 				}
-				Logger.Log("INFO: No base parts saved at \"" + text + "\".");
+				Logger.Info("No base parts saved at \"" + text + "\".");
 				return;
 			}
 			else
 			{
-				Logger.Log("INFO: Could not find save slot for base parts.");
+				Logger.Info("Could not find save slot for base parts.");
 			}
 		}
 
@@ -167,7 +167,7 @@ namespace CyclopsDockingMod.Fixers
 				string saveFolderPath = FilesHelper.GetSaveFolderPath();
 				if (saveFolderPath.Contains("/test/"))
 				{
-					Logger.Log("ERROR: Unable to find save folder path at [" + saveFolderPath + "].");
+					Logger.Error("Unable to find save folder path at [" + saveFolderPath + "].");
 					return;
 				}
 				if (!Directory.Exists(saveFolderPath))
@@ -178,23 +178,23 @@ namespace CyclopsDockingMod.Fixers
 					}
 					catch (System.Exception ex)
 					{
-						Logger.Log($"ERROR: Exception caught while creating folder at [{saveFolderPath}]. Exception=[{ex.ToString()}]");
+						Logger.Error($"Exception caught while creating folder at [{saveFolderPath}]. Exception=[{ex.ToString()}]");
 					}
 				}
 				if (!Directory.Exists(saveFolderPath))
 				{
-					Logger.Log("ERROR: Unable to create save folder at [" + saveFolderPath + "].");
+					Logger.Error("Unable to create save folder at [" + saveFolderPath + "].");
 					return;
 				}
 				string text2 = FilesHelper.Combine(saveFolderPath, "baseparts.txt");
-				Logger.Log($"INFO: Saving {BaseFixer.BaseParts.Count} base parts to \"{text2}\".");
+				Logger.Info($"Saving {BaseFixer.BaseParts.Count} base parts to \"{text2}\".");
 				try
 				{
 					File.WriteAllText(text2, text, Encoding.UTF8);
 				}
 				catch (System.Exception ex2)
 				{
-					Logger.Log($"ERROR: Exception caught while saving base parts at [{text2}]. Exception=[{ex2.ToString()}]");
+					Logger.Error($"Exception caught while saving base parts at [{text2}]. Exception=[{ex2.ToString()}]");
 				}
 			}
 		}
