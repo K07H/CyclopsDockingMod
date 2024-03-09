@@ -9,6 +9,9 @@ using Newtonsoft.Json.Linq;
 using UnityEngine;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.UI;
+using static ClipMapManager;
+using static OVRHaptics;
+using UnityEngine.UIElements;
 
 namespace CyclopsDockingMod.Fixers
 {
@@ -147,7 +150,7 @@ namespace CyclopsDockingMod.Fixers
 
 		public static void SaveBaseParts()
 		{
-			//string text = "";
+			string text = "";
 			List<BasePartSaveData> basePartSaveData = new List<BasePartSaveData>();
 			foreach (BasePart basePart in BaseFixer.BaseParts)
 			{
@@ -192,7 +195,25 @@ namespace CyclopsDockingMod.Fixers
                             config4 = signConfig.Item4
                         }
 					});
-				}
+					text += string.Format(CultureInfo.InvariantCulture, "{0}/{1}/{2}/{3}/{4}/{5}/{6}/{7}/{8}/{9}/{10}/{11}/{12}/{13}{14}", new object[]
+					{
+						basePart.id,
+						basePart.cell.x.ToString(CultureInfo.InvariantCulture),
+						basePart.cell.y.ToString(CultureInfo.InvariantCulture),
+						basePart.cell.z.ToString(CultureInfo.InvariantCulture),
+						basePart.index.ToString(CultureInfo.InvariantCulture),
+						basePart.position.x.ToString(CultureInfo.InvariantCulture),
+						basePart.position.y.ToString(CultureInfo.InvariantCulture),
+						basePart.position.z.ToString(CultureInfo.InvariantCulture),
+						basePart.type.ToString(CultureInfo.InvariantCulture),
+						string.IsNullOrEmpty(basePart.dock) ? "?" : basePart.dock,
+						signConfig.Item1.ToString(CultureInfo.InvariantCulture),
+						signConfig.Item2.ToString(CultureInfo.InvariantCulture),
+						signConfig.Item3 ? "True" : "False",
+						signConfig.Item4,
+						System.Environment.NewLine
+					});
+                }
             }
             string saveFolderPath = FilesHelper.GetSaveFolderPath();
             if (saveFolderPath.Contains("/test/"))
@@ -217,16 +238,11 @@ namespace CyclopsDockingMod.Fixers
                 Logger.Error("Unable to create save folder at [" + saveFolderPath + "].");
                 return;
             }
-            string text2 = FilesHelper.Combine(saveFolderPath, "baseparts.txt");
-			if (File.Exists(text2))
-			{
-				Logger.Info($"Deleting legacy baseparts info \"{text2}\"");
-				File.Delete(text2);
-            }
-            text2 = FilesHelper.Combine(saveFolderPath, "baseparts.json");
+            string text2 = FilesHelper.Combine(saveFolderPath, "baseparts.json");
+            string text3 = FilesHelper.Combine(saveFolderPath, "baseparts.txt");
             if (basePartSaveData.Count > 0)
             {
-                Logger.Info($"Saving {BaseFixer.BaseParts.Count} base parts to \"{text2}\".");
+                Logger.Info($"Saving {BaseFixer.BaseParts.Count} base parts to \"{text2}\" with legacy \"{text3}\" for backwards compatibility.");
                 try
                 {
                     File.WriteAllText(text2, JArray.FromObject(basePartSaveData).ToString(), Encoding.UTF8);
@@ -235,11 +251,41 @@ namespace CyclopsDockingMod.Fixers
                 {
                     Logger.Error($"Exception caught while saving base parts at [{text2}]. Exception=[{ex2.ToString()}]");
                 }
+                try
+                {
+                    File.WriteAllText(text3, text, Encoding.UTF8);
+                }
+                catch (System.Exception ex2)
+                {
+                    Logger.Error($"Exception caught while saving base parts at [{text3}]. Exception=[{ex2.ToString()}]");
+                }
             }
-			else if (File.Exists(text2))
-            {
-                Logger.Info($"Deleting old baseparts info \"{text2}\"");
-                File.Delete(text2);
+			else
+			{
+                if (File.Exists(text2))
+                {
+                    Logger.Info($"Deleting old baseparts info \"{text2}\"");
+                    try
+                    {
+                        File.Delete(text2);
+                    }
+                    catch (System.Exception ex2)
+                    {
+                        Logger.Error($"Exception caught while deleting old baseparts info \"{text2}\". Exception=[{ex2.ToString()}]");
+                    }
+                }
+                if (File.Exists(text3))
+                {
+                    Logger.Info($"Deleting old legacy baseparts info \"{text3}\"");
+                    try
+                    {
+                        File.Delete(text3);
+                    }
+                    catch (System.Exception ex2)
+                    {
+                        Logger.Error($"Exception caught while deleting old baseparts info \"{text3}\". Exception=[{ex2.ToString()}]");
+                    }
+                }
             }
         }
 
