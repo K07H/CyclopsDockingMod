@@ -9,11 +9,13 @@ namespace CyclopsDockingMod.Fixers
 			if (ConfigOptions.EnableAutopilotFeature)
 			{
 				bool flag = false;
-				PrefabIdentifier component = __instance.subRoot.GetComponent<PrefabIdentifier>();
-				if (component != null)
-					flag = SubControlFixer.Docked(component.Id);
-				if (!flag)
-					flag = AutoPilot.SubsPlayingRoutes.ContainsKey(component.Id) && AutoPilot.SubsPlayingRoutes[component.Id].IsPlayingRoute;
+				PrefabIdentifier pid = __instance.subRoot.GetComponent<PrefabIdentifier>();
+				if (pid != null)
+				{
+					flag = SubControlFixer.Docked(pid.Id);
+					if (!flag)
+						flag = AutoPilot.SubsPlayingRoutes.ContainsKey(pid.Id) && AutoPilot.SubsPlayingRoutes[pid.Id].IsPlayingRoute;
+				}
 				if (!flag)
 					flag = AutoPilot.IsRecording;
 				AutoPilot.RefreshHud(__instance.subRoot, flag);

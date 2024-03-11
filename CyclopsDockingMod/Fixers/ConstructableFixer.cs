@@ -144,7 +144,6 @@ namespace CyclopsDockingMod.Fixers
 						UnityEngine.Object.Destroy(component.gameObject);
 					}
 					prefabResult = null;
-					prefabResult = null;
 				}
 				if (!resourceCanBePickedUp)
 				{

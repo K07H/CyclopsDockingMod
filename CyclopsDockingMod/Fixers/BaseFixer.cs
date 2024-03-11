@@ -27,6 +27,10 @@ namespace CyclopsDockingMod.Fixers
 
         private static FieldInfo _rotation = null;
 
+        private const string CorridorDef = "Base+CorridorDef, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null";
+
+        private const string BasePieceDef = "Base+Piece, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null";
+
         private static System.Type BasePieceType = null;
 
         private static object ConnectorLadderEnum = null;
@@ -55,149 +59,250 @@ namespace CyclopsDockingMod.Fixers
 
         private static GameObject _sign = null;
 
+		public static bool IsInBaseParts(string id)
+		{
+			if (BaseFixer.BaseParts != null && BaseFixer.BaseParts.Count > 0)
+				foreach (BasePart bp in BaseFixer.BaseParts)
+					if (bp != null && string.Compare(bp.id, id, System.StringComparison.InvariantCulture) == 0)
+						return true;
+			return false;
+		}
+
         public static void LoadBaseParts(string saveGame)
 		{
 			SubControlFixer.DockedSubs.Clear();
 			BaseFixer.BaseParts.Clear();
 			string saveFolderPath = FilesHelper.GetSaveFolderPath(saveGame);
-			if (saveFolderPath != null)
+			if (saveFolderPath == null)
 			{
-				if (!Directory.Exists(saveFolderPath))
-				{
-					Logger.Log("INFO: No save directory found for base parts at \"" + saveFolderPath + "\".");
-					return;
-				}
-				string text = FilesHelper.Combine(saveFolderPath, "baseparts.txt");
-				if (File.Exists(text))
-				{
-					Logger.Log("INFO: Loading base parts from \"" + text + "\".");
-					string[] array;
-					try
-					{
-						array = File.ReadAllLines(text, Encoding.UTF8);
-					}
-					catch (System.Exception ex)
-					{
-						Logger.Log("ERROR: Exception caught while loading base parts. Exception=[" + ex.ToString() + "]");
-						return;
-					}
-					if (array != null && array.Length != 0)
-					{
-						foreach (string text2 in array)
-						{
-							if (text2.Length > 10 && text2.Contains("/"))
-							{
-								string[] array3 = text2.Split(new char[] { '/' }, System.StringSplitOptions.RemoveEmptyEntries);
-								int num;
-								int num2;
-								int num3;
-								int num4;
-								float num5;
-								float num6;
-								float num7;
-								int num8;
-								int num9;
-								int num10;
-								if (array3 != null && array3.Length == 14 && int.TryParse(array3[1], NumberStyles.Integer, CultureInfo.InvariantCulture, out num) && int.TryParse(array3[2], NumberStyles.Integer, CultureInfo.InvariantCulture, out num2) && int.TryParse(array3[3], NumberStyles.Integer, CultureInfo.InvariantCulture, out num3) && int.TryParse(array3[4], NumberStyles.Integer, CultureInfo.InvariantCulture, out num4) && num4 >= 0 && float.TryParse(array3[5], NumberStyles.Float, CultureInfo.InvariantCulture, out num5) && float.TryParse(array3[6], NumberStyles.Float, CultureInfo.InvariantCulture, out num6) && float.TryParse(array3[7], NumberStyles.Float, CultureInfo.InvariantCulture, out num7) && int.TryParse(array3[8], NumberStyles.Integer, CultureInfo.InvariantCulture, out num8) && num8 >= 0 && int.TryParse(array3[10], NumberStyles.Integer, CultureInfo.InvariantCulture, out num9) && int.TryParse(array3[11], NumberStyles.Integer, CultureInfo.InvariantCulture, out num10))
-								{
-									string text3 = ((string.IsNullOrWhiteSpace(array3[9]) || array3[9] == "?") ? null : array3[9]);
-									BasePart basePart = new BasePart(array3[0], new Int3(num, num2, num3), num4, new Vector3(num5, num6, num7), num8, text3, BaseFixer.GetBaseRoot(array3[0]), BaseFixer.GetSubRoot(text3), num9, num10, string.Compare(array3[12], "True", true, CultureInfo.InvariantCulture) == 0, BaseFixer.RestoreSignElements(array3[13]));
-									BaseFixer.BaseParts.Add(basePart);
-									if (text3 != null)
-									{
-										SubControlFixer.DockedSubs[text3] = basePart;
-									}
-								}
-							}
-						}
-					}
-					Logger.Log("INFO: Base parts loaded. Player built {0} custom base parts.", new object[] { BaseFixer.BaseParts.Count });
-					return;
-				}
-				Logger.Log("INFO: No base parts saved at \"" + text + "\".");
+                Logger.Message("Could not find save slot for base parts.");
+				return;
+            }
+			if (!Directory.Exists(saveFolderPath))
+			{
+				Logger.Message("No save directory found for base parts at \"" + saveFolderPath + "\".");
 				return;
 			}
+
+            string text = FilesHelper.Combine(saveFolderPath, "baseparts.txt");
+            if (!File.Exists(text))
+                Logger.Message("No saved base parts found at \"" + text + "\".");
+            else
+            {
+                Logger.Message("Loading base parts from \"" + text + "\"...");
+                int loadedFromTxt = 0;
+                string[] array;
+                try
+                {
+                    array = File.ReadAllLines(text, Encoding.UTF8);
+                }
+                catch (System.Exception ex)
+                {
+					array = null;
+                    Logger.Error("Exception caught while loading base parts from TXT. Exception=[" + ex.ToString() + "]");
+                }
+                if (array != null && array.Length != 0)
+                {
+                    foreach (string text2 in array)
+                    {
+                        if (text2.Length > 10 && text2.Contains("/"))
+                        {
+                            string[] array3 = text2.Split(new char[] { '/' }, System.StringSplitOptions.RemoveEmptyEntries);
+                            int cellX;
+                            int cellY;
+                            int cellZ;
+                            int index;
+                            float posX;
+                            float posY;
+                            float posZ;
+                            int type;
+                            int signConfig1;
+                            int signConfig2;
+                            if (array3 != null && array3.Length == 14 && int.TryParse(array3[1], NumberStyles.Integer, CultureInfo.InvariantCulture, out cellX) && int.TryParse(array3[2], NumberStyles.Integer, CultureInfo.InvariantCulture, out cellY) && int.TryParse(array3[3], NumberStyles.Integer, CultureInfo.InvariantCulture, out cellZ) && int.TryParse(array3[4], NumberStyles.Integer, CultureInfo.InvariantCulture, out index) && index >= 0 && float.TryParse(array3[5], NumberStyles.Float, CultureInfo.InvariantCulture, out posX) && float.TryParse(array3[6], NumberStyles.Float, CultureInfo.InvariantCulture, out posY) && float.TryParse(array3[7], NumberStyles.Float, CultureInfo.InvariantCulture, out posZ) && int.TryParse(array3[8], NumberStyles.Integer, CultureInfo.InvariantCulture, out type) && type >= 0 && int.TryParse(array3[10], NumberStyles.Integer, CultureInfo.InvariantCulture, out signConfig1) && int.TryParse(array3[11], NumberStyles.Integer, CultureInfo.InvariantCulture, out signConfig2))
+                            {
+                                string dock = ((string.IsNullOrWhiteSpace(array3[9]) || array3[9] == "?") ? null : array3[9]);
+                                BasePart basePart = new BasePart(array3[0], new Int3(cellX, cellY, cellZ), index, new Vector3(posX, posY, posZ), type, dock, BaseFixer.GetBaseRoot(array3[0]), BaseFixer.GetSubRoot(dock), signConfig1, signConfig2, string.Compare(array3[12], "True", true, CultureInfo.InvariantCulture) == 0, BaseFixer.RestoreSignElements(array3[13]));
+                                BaseFixer.BaseParts.Add(basePart);
+                                if (dock != null)
+                                    SubControlFixer.DockedSubs[dock] = basePart;
+								++loadedFromTxt;
+                            }
+                        }
+                    }
+                }
+                Logger.Message($"Loaded {loadedFromTxt} base parts from TXT.");
+            }
+
+            string jsonText = FilesHelper.Combine(saveFolderPath, "baseparts.json");
+            if (!File.Exists(jsonText))
+                Logger.Message("No saved base parts found at \"" + jsonText + "\".");
 			else
-			{
-				Logger.Log("INFO: Could not find save slot for base parts.");
-			}
-		}
+            {
+                Logger.Message("Loading base parts from \"" + jsonText + "\"...");
+                int loadedFromJson = 0;
+				List<BasePartSaveData> jsonList;
+
+                try
+				{
+                    jsonList = JsonWriter.ReadJson(File.ReadAllLines(jsonText, Encoding.UTF8));
+				}
+				catch (System.Exception ex)
+                {
+                    jsonList = null;
+                    Logger.Error("Exception caught while loading base parts from JSON. Exception=[" + ex.ToString() + "]");
+                }
+                if (jsonList != null && jsonList.Count > 0)
+                {
+					foreach (BasePartSaveData data in jsonList)
+                    {
+						if (!IsInBaseParts(data.id))
+						{
+							string dock = ((string.IsNullOrWhiteSpace(data.dock) || data.dock == "?") ? null : data.dock);
+							BasePart basePart = new BasePart(data.id, new Int3(data.cellX, data.cellY, data.cellZ), data.index, new Vector3(data.positionX, data.positionY, data.positionZ), data.type, dock, BaseFixer.GetBaseRoot(data.id), BaseFixer.GetSubRoot(dock), data.signConfig1, data.signConfig2, data.signConfig3, BaseFixer.RestoreSignElements(data.signConfig4));
+							BaseFixer.BaseParts.Add(basePart);
+							if (dock != null)
+								SubControlFixer.DockedSubs[dock] = basePart;
+							++loadedFromJson;
+						}
+						else
+							Logger.Message($"Found JSON base part [{data.id}] already loaded through TXT. Skipping.");
+                    }
+                }
+                Logger.Message($"Loaded {loadedFromJson} base parts from JSON.");
+            }
+
+            Logger.Message($"Player built {BaseFixer.BaseParts.Count} custom base parts.");
+        }
 
 		public static void SaveBaseParts()
 		{
 			string text = "";
-			foreach (BasePart basePart in BaseFixer.BaseParts)
+			List<BasePartSaveData> basePartSaveData = new List<BasePartSaveData>();
+			bool noBaseParts = true;
+			if (BaseFixer.BaseParts != null && BaseFixer.BaseParts.Count > 0)
+				foreach (BasePart basePart in BaseFixer.BaseParts)
+					if (basePart.type >= 0 && !string.IsNullOrEmpty(basePart.id))
+                    {
+                        noBaseParts = false;
+                        BaseRoot root = basePart.root;
+						Transform transform;
+						if (root == null)
+							transform = null;
+						else
+						{
+							GameObject gameObject = root.gameObject;
+							transform = ((gameObject != null) ? gameObject.transform : null);
+						}
+						System.Tuple<int, int, bool, string> signConfig = BaseFixer.GetSignConfig(transform, basePart.position);
+						basePartSaveData.Add(new BasePartSaveData
+						{
+							id = basePart.id,
+							cellX = basePart.cell.x,
+							cellY = basePart.cell.y,
+							cellZ = basePart.cell.z,
+							index = basePart.index,
+							positionX = basePart.position.x,
+							positionY = basePart.position.y,
+							positionZ = basePart.position.z,
+							type = basePart.type,
+							dock = string.IsNullOrEmpty(basePart.dock) ? "?" : basePart.dock,
+							signConfig1 = signConfig.Item1,
+							signConfig2 = signConfig.Item2,
+							signConfig3 = signConfig.Item3,
+							signConfig4 = signConfig.Item4
+						});
+						text += string.Format(CultureInfo.InvariantCulture, "{0}/{1}/{2}/{3}/{4}/{5}/{6}/{7}/{8}/{9}/{10}/{11}/{12}/{13}{14}", new object[]
+						{
+							basePart.id,
+							basePart.cell.x.ToString(CultureInfo.InvariantCulture),
+							basePart.cell.y.ToString(CultureInfo.InvariantCulture),
+							basePart.cell.z.ToString(CultureInfo.InvariantCulture),
+							basePart.index.ToString(CultureInfo.InvariantCulture),
+							basePart.position.x.ToString(CultureInfo.InvariantCulture),
+							basePart.position.y.ToString(CultureInfo.InvariantCulture),
+							basePart.position.z.ToString(CultureInfo.InvariantCulture),
+							basePart.type.ToString(CultureInfo.InvariantCulture),
+							string.IsNullOrEmpty(basePart.dock) ? "?" : basePart.dock,
+							signConfig.Item1.ToString(CultureInfo.InvariantCulture),
+							signConfig.Item2.ToString(CultureInfo.InvariantCulture),
+							signConfig.Item3 ? "True" : "False",
+							signConfig.Item4,
+							System.Environment.NewLine
+						});
+					}
+
+            string saveFolderPath = FilesHelper.GetSaveFolderPath();
+            if (saveFolderPath.Contains("/test/"))
+            {
+                Logger.Error("Unable to find save folder path at [" + saveFolderPath + "].");
+                return;
+            }
+            if (!Directory.Exists(saveFolderPath))
+            {
+                try
+                {
+                    Directory.CreateDirectory(saveFolderPath);
+                }
+                catch (System.Exception ex)
+                {
+                    Logger.Error($"Exception caught while creating folder at [{saveFolderPath}]. Exception=[{ex.ToString()}]");
+                }
+            }
+            if (!Directory.Exists(saveFolderPath))
+            {
+                Logger.Error("Unable to create save folder at [" + saveFolderPath + "].");
+                return;
+            }
+            string text2 = FilesHelper.Combine(saveFolderPath, "baseparts.json");
+            string text3 = FilesHelper.Combine(saveFolderPath, "baseparts.txt");
+            if (!noBaseParts)
+            {
+                Logger.Message($"Saving {BaseFixer.BaseParts.Count} base parts to \"{text3}\" (and to \"{text2}\" as additional format).");
+                try
+                {
+                    File.WriteAllText(text3, text, Encoding.UTF8);
+                }
+                catch (System.Exception ex2)
+                {
+                    Logger.Error($"Exception caught while saving base parts at [{text3}]. Exception=[{ex2.ToString()}]");
+                }
+                try
+                {
+                    File.WriteAllText(text2, JsonWriter.WriteJson(basePartSaveData), Encoding.UTF8);
+                }
+                catch (System.Exception ex2)
+                {
+                    Logger.Error($"Exception caught while saving base parts at [{text2}]. Exception=[{ex2.ToString()}]");
+                }
+            }
+			else
 			{
-				if (basePart.type >= 0 && !string.IsNullOrEmpty(basePart.id))
-				{
-					BaseRoot root = basePart.root;
-					Transform transform;
-					if (root == null)
-					{
-						transform = null;
-					}
-					else
-					{
-						GameObject gameObject = root.gameObject;
-						transform = ((gameObject != null) ? gameObject.transform : null);
-					}
-                    System.Tuple<int, int, bool, string> signConfig = BaseFixer.GetSignConfig(transform, basePart.position);
-					text += string.Format(CultureInfo.InvariantCulture, "{0}/{1}/{2}/{3}/{4}/{5}/{6}/{7}/{8}/{9}/{10}/{11}/{12}/{13}{14}", new object[]
-					{
-						basePart.id,
-						basePart.cell.x.ToString(CultureInfo.InvariantCulture),
-						basePart.cell.y.ToString(CultureInfo.InvariantCulture),
-						basePart.cell.z.ToString(CultureInfo.InvariantCulture),
-						basePart.index.ToString(CultureInfo.InvariantCulture),
-						basePart.position.x.ToString(CultureInfo.InvariantCulture),
-						basePart.position.y.ToString(CultureInfo.InvariantCulture),
-						basePart.position.z.ToString(CultureInfo.InvariantCulture),
-						basePart.type.ToString(CultureInfo.InvariantCulture),
-						string.IsNullOrEmpty(basePart.dock) ? "?" : basePart.dock,
-						signConfig.Item1.ToString(CultureInfo.InvariantCulture),
-						signConfig.Item2.ToString(CultureInfo.InvariantCulture),
-						signConfig.Item3 ? "True" : "False",
-						signConfig.Item4,
-                        System.Environment.NewLine
-					});
-				}
-			}
-			if (!string.IsNullOrEmpty(text))
-			{
-				string saveFolderPath = FilesHelper.GetSaveFolderPath();
-				if (saveFolderPath.Contains("/test/"))
-				{
-					Logger.Log("ERROR: Unable to find save folder path at [" + saveFolderPath + "].");
-					return;
-				}
-				if (!Directory.Exists(saveFolderPath))
-				{
-					try
-					{
-						Directory.CreateDirectory(saveFolderPath);
-					}
-					catch (System.Exception ex)
-					{
-						Logger.Log($"ERROR: Exception caught while creating folder at [{saveFolderPath}]. Exception=[{ex.ToString()}]");
-					}
-				}
-				if (!Directory.Exists(saveFolderPath))
-				{
-					Logger.Log("ERROR: Unable to create save folder at [" + saveFolderPath + "].");
-					return;
-				}
-				string text2 = FilesHelper.Combine(saveFolderPath, "baseparts.txt");
-				Logger.Log($"INFO: Saving {BaseFixer.BaseParts.Count} base parts to \"{text2}\".");
-				try
-				{
-					File.WriteAllText(text2, text, Encoding.UTF8);
-				}
-				catch (System.Exception ex2)
-				{
-					Logger.Log($"ERROR: Exception caught while saving base parts at [{text2}]. Exception=[{ex2.ToString()}]");
-				}
-			}
-		}
+                if (File.Exists(text2))
+                {
+                    Logger.Message($"Deleting old baseparts info at \"{text2}\"");
+                    try
+                    {
+                        File.Delete(text2);
+                    }
+                    catch (System.Exception ex2)
+                    {
+                        Logger.Error($"Exception caught while deleting old baseparts info \"{text2}\". Exception=[{ex2.ToString()}]");
+                    }
+                }
+                if (File.Exists(text3))
+                {
+                    Logger.Message($"Deleting old baseparts info at \"{text3}\"");
+                    try
+                    {
+                        File.Delete(text3);
+                    }
+                    catch (System.Exception ex2)
+                    {
+                        Logger.Error($"Exception caught while deleting old baseparts info \"{text3}\". Exception=[{ex2.ToString()}]");
+                    }
+                }
+            }
+        }
 
 		private static bool[] RestoreSignElements(string str)
 		{
@@ -491,7 +596,7 @@ namespace CyclopsDockingMod.Fixers
 						{
 							BaseLadder component = transform2.GetComponent<BaseLadder>();
 							if (component != null)
-								Object.DestroyImmediate(component);
+                                Object.DestroyImmediate(component);
 							transform2.gameObject.AddComponent<LadderController>();
 						}
 						else if (CyclopsDockingModUI.CfgLadderTintColorVal != 0 && CyclopsDockingModUI.CfgLadderTintColorVal < BasePart.Colors.Length && transform2.name.StartsWith("models"))
@@ -521,14 +626,14 @@ namespace CyclopsDockingMod.Fixers
 			if (!BaseFixer._typesInitialized)
 			{
 				if (BaseFixer.CorridorDefType == null)
-					BaseFixer.CorridorDefType = System.Type.GetType("Base+CorridorDef, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null", false, true);
+					BaseFixer.CorridorDefType = System.Type.GetType(CorridorDef, false, true);
 				if ((BaseFixer._piece == null || BaseFixer._rotation == null) && BaseFixer.CorridorDefType != null)
 				{
 					BaseFixer._piece = BaseFixer.CorridorDefType.GetField("piece");
 					BaseFixer._rotation = BaseFixer.CorridorDefType.GetField("rotation");
 				}
 				if (BaseFixer.BasePieceType == null)
-					BaseFixer.BasePieceType = System.Type.GetType("Base+Piece, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null", false, true);
+					BaseFixer.BasePieceType = System.Type.GetType(BasePieceDef, false, true);
 				if (BaseFixer.BasePieceType != null)
 				{
 					if (BaseFixer.ConnectorLadderEnum == null)
@@ -781,4 +886,23 @@ namespace CyclopsDockingMod.Fixers
             return true;
         }
 	}
+
+    public struct BasePartSaveData
+	{
+        public string id;
+		public int cellX;
+		public int cellY;
+		public int cellZ;
+        public int index;
+        public float positionX;
+        public float positionY;
+        public float positionZ;
+        public int type;
+        public string dock;
+
+        public int signConfig1;
+        public int signConfig2;
+        public bool signConfig3;
+        public string signConfig4;
+    }
 }

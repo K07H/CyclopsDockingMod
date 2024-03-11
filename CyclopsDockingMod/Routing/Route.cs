@@ -107,9 +107,9 @@ namespace CyclopsDockingMod.Routing
 							num13 = array5.Length;
 					}
 					if (num13 > 5)
-						Logger.Log($"WARNING: Could not load Cyclops auto-pilot route. Serial=[{array[0]}/{array[1]}/{array[2]}/{array[3]}/{array[4]}/{array[5]}/{array[6]}/{array[7]}/{array[8]}/{array[9]}/...] NbPoints=[{num13}]");
+						Logger.Warning($"Could not load Cyclops auto-pilot route. Serial=[{array[0]}/{array[1]}/{array[2]}/{array[3]}/{array[4]}/{array[5]}/{array[6]}/{array[7]}/{array[8]}/{array[9]}/...] NbPoints=[{num13}]");
 					else
-						Logger.Log($"WARNING: Could not load Cyclops auto-pilot route. Serial=[{array[0]}/{array[1]}/{array[2]}/{array[3]}/{array[4]}/{array[5]}/{array[6]}/{array[7]}/{array[8]}/{array[9]}/{array[10]}]");
+						Logger.Warning($"Could not load Cyclops auto-pilot route. Serial=[{array[0]}/{array[1]}/{array[2]}/{array[3]}/{array[4]}/{array[5]}/{array[6]}/{array[7]}/{array[8]}/{array[9]}/{array[10]}]");
 				}
 			}
 			return null;

@@ -3,13 +3,13 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>CyclopsDockingMod</AssemblyName>
     <Description>A mod for Subnautica that adds a docking base piece to dock your Cyclops. Also adds Cyclops autopilot feature.</Description>
-    <Version>2.0.8</Version>
+    <Version>2.1.0</Version>
     <Authors>OSubMarin (contact@osubmarin.fr)</Authors>
     <Company>LC-IT S.</Company>
     <Product>CyclopsDockingMod</Product>
     <Title>CyclopsDockingMod</Title>
     <PackageId>CyclopsDockingMod</PackageId>
-    <Copyright>Copyright © 2019-2023. Tous droits réservés.</Copyright>
+    <Copyright>Copyright © 2019-2024. Tous droits réservés.</Copyright>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>latest</LangVersion>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -20,7 +20,7 @@
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
-    <Configurations>Debug;Release;DebugLegacy;ReleaseLegacy</Configurations>
+    <Configurations>Debug;Release;DebugLegacy;ReleaseLegacy;DebugNauti;ReleaseNauti</Configurations>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -30,10 +30,21 @@
     <DefineConstants>TRACE;DEBUG;SUBNAUTICA;SUBNAUTICA_EXP;DEBUG_CURSOR_LOCK;DEBUG_AUTOPILOT_CLICK;DEBUG_CYCLOPS_HUD</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <SubnauticaDir>H:\SteamLibrary\steamapps\common\Subnautica</SubnauticaDir>
+    <SubnauticaDir>C:\Program Files (x86)\Steam\steamapps\common\Subnautica</SubnauticaDir>
     <Dependencies>$(SubnauticaDir)\Subnautica_Data\Managed</Dependencies>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugLegacy|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugNauti|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;SUBNAUTICA;SUBNAUTICA_EXP;SUBNAUTICA_NAUTI;DEBUG_CURSOR_LOCK;DEBUG_AUTOPILOT_CLICK;DEBUG_CYCLOPS_HUD</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <SubnauticaDir>C:\Program Files (x86)\Steam\steamapps\common\Subnautica</SubnauticaDir>
+    <Dependencies>$(SubnauticaDir)\Subnautica_Data\Managed</Dependencies>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugLegacy|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -41,7 +52,7 @@
     <DefineConstants>TRACE;DEBUG;SUBNAUTICA</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <SubnauticaDir>H:\SteamLibrary\steamapps\common\Subnautica</SubnauticaDir>
+    <SubnauticaDir>C:\Program Files (x86)\Steam\steamapps\common\Subnautica</SubnauticaDir>
     <Dependencies>$(SubnauticaDir)\Subnautica_Data\Managed</Dependencies>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -51,17 +62,27 @@
     <DefineConstants>SUBNAUTICA;SUBNAUTICA_EXP;DEBUG_BEPINEX_CONFIG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>2</WarningLevel>
-    <SubnauticaDir>H:\SteamLibrary\steamapps\common\Subnautica</SubnauticaDir>
+    <SubnauticaDir>C:\Program Files (x86)\Steam\steamapps\common\Subnautica</SubnauticaDir>
     <Dependencies>$(SubnauticaDir)\Subnautica_Data\Managed</Dependencies>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseLegacy|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseNauti|AnyCPU'">
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>SUBNAUTICA;SUBNAUTICA_EXP;SUBNAUTICA_NAUTI;DEBUG_BEPINEX_CONFIG</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>2</WarningLevel>
+    <SubnauticaDir>C:\Program Files (x86)\Steam\steamapps\common\Subnautica</SubnauticaDir>
+    <Dependencies>$(SubnauticaDir)\Subnautica_Data\Managed</Dependencies>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseLegacy|AnyCPU'">
     <DebugType>none</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>SUBNAUTICA</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>2</WarningLevel>
-    <SubnauticaDir>H:\SteamLibrary\steamapps\common\Subnautica</SubnauticaDir>
+    <SubnauticaDir>C:\Program Files (x86)\Steam\steamapps\common\Subnautica</SubnauticaDir>
     <Dependencies>$(SubnauticaDir)\Subnautica_Data\Managed</Dependencies>
   </PropertyGroup>
   <ItemGroup>
@@ -72,13 +93,22 @@
       <HintPath>$(SubnauticaDir)\BepInEx\core\0Harmony.dll</HintPath>
     </Reference>
     <Reference Include="Assembly-CSharp">
-      <HintPath>$(Dependencies)\Assembly-CSharp.dll</HintPath>
+      <HintPath>$(Dependencies)\publicized_assemblies\Assembly-CSharp_publicized.dll</HintPath>
+      <!--<HintPath>$(Dependencies)\Assembly-CSharp.dll</HintPath>-->
     </Reference>
     <Reference Include="Assembly-CSharp-firstpass">
-      <HintPath>$(Dependencies)\Assembly-CSharp-firstpass.dll</HintPath>
+      <HintPath>$(Dependencies)\publicized_assemblies\Assembly-CSharp-firstpass_publicized.dll</HintPath>
+      <!--<HintPath>$(Dependencies)\Assembly-CSharp-firstpass.dll</HintPath>-->
     </Reference>
-    <Reference Include="SMLHelper">
+    <Reference Include="SMLHelper" Condition="'$(Configuration)' == 'Debug' or '$(Configuration)' == 'DebugLegacy' or '$(Configuration)' == 'Release' or '$(Configuration)' == 'ReleaseLegacy'">
       <HintPath>$(SubnauticaDir)\BepInEx\plugins\Modding Helper\SMLHelper.dll</HintPath>
+    </Reference>
+    <Reference Include="Nautilus" Condition="'$(Configuration)' == 'DebugNauti' or '$(Configuration)' == 'ReleaseNauti'">
+      <HintPath>$(SubnauticaDir)\BepInEx\plugins\Nautilus\Nautilus.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Addressables" Condition="'$(Configuration)' == 'DebugNauti' or '$(Configuration)' == 'ReleaseNauti'">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>$(Dependencies)\Unity.Addressables.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine">
       <HintPath>$(Dependencies)\UnityEngine.dll</HintPath>
@@ -159,6 +189,7 @@
     <Compile Include="Fixers\uGUI_MainMenuFixer.cs" />
     <Compile Include="Fixers\UtilsFixer.cs" />
     <Compile Include="IBaseItem.cs" />
+    <Compile Include="JsonWriter.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Routing\AutoPilot.cs" />
     <Compile Include="Routing\MyInputField.cs" />
@@ -167,4 +198,7 @@
     <Compile Include="StylesHelper.cs" />
     <Compile Include="UI\CyclopsDockingModUI.cs" />
   </ItemGroup>
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="xcopy /Y /I &quot;$(TargetPath)&quot; &quot;S:\Steam\steamapps\common\Subnautica\BepInEx\plugins\CyclopsDockingMod\&quot;" />
+  </Target>
 </Project>

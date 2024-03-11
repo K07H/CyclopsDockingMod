@@ -336,7 +336,7 @@ namespace CyclopsDockingMod.Fixers
 			}
 			catch (Exception ex)
 			{
-				Logger.Log("ERROR: Exception caught in Throttle. Ex=[" + ex.ToString() + "]");
+				Logger.Error("Exception caught in Throttle. Ex=[" + ex.ToString() + "]");
 			}
 		}
 

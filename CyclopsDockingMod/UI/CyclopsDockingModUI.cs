@@ -250,7 +250,7 @@ namespace CyclopsDockingMod.UI
 
 		private void InitWindow()
 		{
-			CyclopsDockingModUI.CDMScreen = GUI.Window(this.GetHashCode(), CyclopsDockingModUI.CDMScreen, new GUI.WindowFunction(this.DrawCDMScreen), "Cyclops Docking mod v2.0.7, by OSubMarin", GUI.skin.window);
+			CyclopsDockingModUI.CDMScreen = GUI.Window(this.GetHashCode(), CyclopsDockingModUI.CDMScreen, new GUI.WindowFunction(this.DrawCDMScreen), "Cyclops Docking mod v2.1.0, by OSubMarin", GUI.skin.window);
 		}
 
 		private void Update()
