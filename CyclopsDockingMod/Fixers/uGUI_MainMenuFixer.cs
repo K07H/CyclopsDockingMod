@@ -40,7 +40,7 @@ namespace CyclopsDockingMod.Fixers
 			}
 			catch (Exception ex)
 			{
-				Logger.Log("ERROR: Exception caught while retrieving game info. Exception=[" + ex.ToString() + "]", Array.Empty<object>());
+				Logger.Error("Exception caught while retrieving game info. Exception=[" + ex.ToString() + "]", Array.Empty<object>());
 				gameInfo = null;
 			}
 			if (gameInfo != null)

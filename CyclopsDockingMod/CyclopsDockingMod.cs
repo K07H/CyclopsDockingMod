@@ -31,7 +31,7 @@ namespace CyclopsDockingMod
 		{
 			if ((CyclopsDockingMod.HarmonyInstance = new Harmony("com.osubmarin.cyclopsdockingmod")) == null)
 			{
-				Logger.Log("ERROR: Unable to initialize Harmony!");
+				Logger.Error("Unable to initialize Harmony!");
 				return false;
 			}
 			return true;
@@ -69,13 +69,13 @@ namespace CyclopsDockingMod
 			if (method11 != null && method12 != null)
 				CyclopsDockingMod.HarmonyInstance.Patch(method11, null, new HarmonyMethod(method12), null, null, null);
 			else
-				Logger.Log("ERROR: Failed to find BeginAsync methods.");
+				Logger.Error("Failed to find BeginAsync methods.");
 			MethodInfo method13 = typeof(Builder).GetMethod("CreateGhost", BindingFlags.Static | BindingFlags.NonPublic);
 			MethodInfo method14 = typeof(BuilderFixer).GetMethod("CreateGhost_Prefix", BindingFlags.Static | BindingFlags.Public);
 			if (method13 != null && method14 != null)
 				CyclopsDockingMod.HarmonyInstance.Patch(method13, new HarmonyMethod(method14), null, null, null, null);
 			else
-				Logger.Log("ERROR: Failed to find CreateGhost methods.");
+				Logger.Error("Failed to find CreateGhost methods.");
 			MethodInfo method15 = typeof(BaseGhost).GetMethod("Place", BindingFlags.Instance | BindingFlags.Public);
 			MethodInfo method16 = typeof(BaseGhostFixer).GetMethod("Place_Prefix", BindingFlags.Static | BindingFlags.Public);
 			CyclopsDockingMod.HarmonyInstance.Patch(method15, new HarmonyMethod(method16), null, null, null, null);

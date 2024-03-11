@@ -116,18 +116,19 @@ namespace CyclopsDockingMod
 				PrefabHandler.RegisterPrefab(this);
 #endif
 				SpriteHandler.RegisterSprite(base.TechType, AssetsHelper.Assets.LoadAsset<Sprite>("CyclopsDockingHatchIconG"));
+
 				this.IsRegistered = true;
 			}
 		}
 
 		public override GameObject GetGameObject()
 		{
-			if (base.GameObject == null)
-				base.GameObject = new GameObject(base.ClassID);
-			GameObject gameObject = Object.Instantiate<GameObject>(base.GameObject);
-			gameObject.name = base.ClassID;
-			gameObject.AddComponent<PrefabIdentifier>().ClassId = base.ClassID;
-			gameObject.AddComponent<TechTag>().type = base.TechType;
+			if (GameObject == null)
+				GameObject = new GameObject(ClassID);
+			GameObject gameObject = Object.Instantiate<GameObject>(GameObject);
+			gameObject.name = ClassID;
+			gameObject.AddComponent<PrefabIdentifier>().ClassId = ClassID;
+			gameObject.AddComponent<TechTag>().type = TechType;
 			Constructable constructable = gameObject.AddComponent<Constructable>();
 			constructable.allowedInBase = true;
 			constructable.allowedInSub = true;
@@ -140,7 +141,7 @@ namespace CyclopsDockingMod
 			constructable.deconstructionAllowed = true;
 			constructable.rotationEnabled = false;
 			constructable.model = gameObject;
-			constructable.techType = base.TechType;
+			constructable.techType = TechType;
 			constructable.surfaceType = VFXSurfaceTypes.metal;
 			constructable.placeMinDistance = 0.6f;
 			constructable.enabled = true;
