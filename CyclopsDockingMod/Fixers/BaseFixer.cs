@@ -5,13 +5,9 @@ using System.Reflection;
 using System.Text;
 using CyclopsDockingMod.Controllers;
 using CyclopsDockingMod.UI;
-using Newtonsoft.Json.Linq;
 using UnityEngine;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.UI;
-using static ClipMapManager;
-using static OVRHaptics;
-using UnityEngine.UIElements;
 
 namespace CyclopsDockingMod.Fixers
 {
@@ -63,162 +59,178 @@ namespace CyclopsDockingMod.Fixers
 
         private static GameObject _sign = null;
 
+		public static bool IsInBaseParts(string id)
+		{
+			if (BaseFixer.BaseParts != null && BaseFixer.BaseParts.Count > 0)
+				foreach (BasePart bp in BaseFixer.BaseParts)
+					if (bp != null && string.Compare(bp.id, id, System.StringComparison.InvariantCulture) == 0)
+						return true;
+			return false;
+		}
+
         public static void LoadBaseParts(string saveGame)
 		{
 			SubControlFixer.DockedSubs.Clear();
 			BaseFixer.BaseParts.Clear();
 			string saveFolderPath = FilesHelper.GetSaveFolderPath(saveGame);
-			if (saveFolderPath != null)
+			if (saveFolderPath == null)
 			{
-				if (!Directory.Exists(saveFolderPath))
-				{
-					Logger.Info("No save directory found for base parts at \"" + saveFolderPath + "\".");
-					return;
-				}
-				string text = FilesHelper.Combine(saveFolderPath, "baseparts.json");
-                if (File.Exists(text))
+                Logger.Message("Could not find save slot for base parts.");
+				return;
+            }
+			if (!Directory.Exists(saveFolderPath))
+			{
+				Logger.Message("No save directory found for base parts at \"" + saveFolderPath + "\".");
+				return;
+			}
+
+            string text = FilesHelper.Combine(saveFolderPath, "baseparts.txt");
+            if (!File.Exists(text))
+                Logger.Message("No saved base parts found at \"" + text + "\".");
+            else
+            {
+                Logger.Message("Loading base parts from \"" + text + "\"...");
+                int loadedFromTxt = 0;
+                string[] array;
+                try
                 {
-                    Logger.Info("Loading base parts from \"" + text + "\".");
-					BasePartSaveData[] array = JArray.Parse(File.ReadAllText(text, Encoding.UTF8)).ToObject<BasePartSaveData[]>();
-                    if (array != null && array.Length != 0)
+                    array = File.ReadAllLines(text, Encoding.UTF8);
+                }
+                catch (System.Exception ex)
+                {
+					array = null;
+                    Logger.Error("Exception caught while loading base parts from TXT. Exception=[" + ex.ToString() + "]");
+                }
+                if (array != null && array.Length != 0)
+                {
+                    foreach (string text2 in array)
                     {
-						foreach (BasePartSaveData data in array)
+                        if (text2.Length > 10 && text2.Contains("/"))
                         {
-                            string dock = ((string.IsNullOrWhiteSpace(data.basePart.dock) || data.basePart.dock == "?") ? null : data.basePart.dock);
-                            BasePart basePart = new BasePart(data.basePart.id, new Int3(data.basePart.cell.x, data.basePart.cell.y, data.basePart.cell.z), data.basePart.index, new Vector3(data.basePart.position.x, data.basePart.position.y, data.basePart.position.z), data.basePart.type, dock, BaseFixer.GetBaseRoot(data.basePart.id), BaseFixer.GetSubRoot(dock), data.signConfig.config1, data.signConfig.config2, data.signConfig.config3, BaseFixer.RestoreSignElements(data.signConfig.config4));
-                            BaseFixer.BaseParts.Add(basePart);
-                            if (dock != null)
+                            string[] array3 = text2.Split(new char[] { '/' }, System.StringSplitOptions.RemoveEmptyEntries);
+                            int cellX;
+                            int cellY;
+                            int cellZ;
+                            int index;
+                            float posX;
+                            float posY;
+                            float posZ;
+                            int type;
+                            int signConfig1;
+                            int signConfig2;
+                            if (array3 != null && array3.Length == 14 && int.TryParse(array3[1], NumberStyles.Integer, CultureInfo.InvariantCulture, out cellX) && int.TryParse(array3[2], NumberStyles.Integer, CultureInfo.InvariantCulture, out cellY) && int.TryParse(array3[3], NumberStyles.Integer, CultureInfo.InvariantCulture, out cellZ) && int.TryParse(array3[4], NumberStyles.Integer, CultureInfo.InvariantCulture, out index) && index >= 0 && float.TryParse(array3[5], NumberStyles.Float, CultureInfo.InvariantCulture, out posX) && float.TryParse(array3[6], NumberStyles.Float, CultureInfo.InvariantCulture, out posY) && float.TryParse(array3[7], NumberStyles.Float, CultureInfo.InvariantCulture, out posZ) && int.TryParse(array3[8], NumberStyles.Integer, CultureInfo.InvariantCulture, out type) && type >= 0 && int.TryParse(array3[10], NumberStyles.Integer, CultureInfo.InvariantCulture, out signConfig1) && int.TryParse(array3[11], NumberStyles.Integer, CultureInfo.InvariantCulture, out signConfig2))
                             {
-                                SubControlFixer.DockedSubs[dock] = basePart;
+                                string dock = ((string.IsNullOrWhiteSpace(array3[9]) || array3[9] == "?") ? null : array3[9]);
+                                BasePart basePart = new BasePart(array3[0], new Int3(cellX, cellY, cellZ), index, new Vector3(posX, posY, posZ), type, dock, BaseFixer.GetBaseRoot(array3[0]), BaseFixer.GetSubRoot(dock), signConfig1, signConfig2, string.Compare(array3[12], "True", true, CultureInfo.InvariantCulture) == 0, BaseFixer.RestoreSignElements(array3[13]));
+                                BaseFixer.BaseParts.Add(basePart);
+                                if (dock != null)
+                                    SubControlFixer.DockedSubs[dock] = basePart;
+								++loadedFromTxt;
                             }
                         }
                     }
-                    Logger.Info("Base parts loaded. Player built {0} custom base parts.", new object[] { BaseFixer.BaseParts.Count });
-                    return;
                 }
-                text = FilesHelper.Combine(saveFolderPath, "baseparts.txt");
-				if (File.Exists(text))
-				{
-					Logger.Info("Loading old format base parts from \"" + text + "\".");
-					string[] array;
-					try
-					{
-						array = File.ReadAllLines(text, Encoding.UTF8);
-					}
-					catch (System.Exception ex)
-					{
-						Logger.Error("Exception caught while loading base parts. Exception=[" + ex.ToString() + "]");
-						return;
-					}
-					if (array != null && array.Length != 0)
-					{
-						foreach (string text2 in array)
-						{
-							if (text2.Length > 10 && text2.Contains("/"))
-							{
-                                string[] array3 = text2.Split(new char[] { '/' }, System.StringSplitOptions.RemoveEmptyEntries);
-								int cellX;
-								int cellY;
-								int cellZ;
-								int index;
-								float posX;
-								float posY;
-								float posZ;
-								int type;
-								int signConfig1;
-								int signConfig2;
-								if (array3 != null && array3.Length == 14 && int.TryParse(array3[1], NumberStyles.Integer, CultureInfo.InvariantCulture, out cellX) && int.TryParse(array3[2], NumberStyles.Integer, CultureInfo.InvariantCulture, out cellY) && int.TryParse(array3[3], NumberStyles.Integer, CultureInfo.InvariantCulture, out cellZ) && int.TryParse(array3[4], NumberStyles.Integer, CultureInfo.InvariantCulture, out index) && index >= 0 && float.TryParse(array3[5], NumberStyles.Float, CultureInfo.InvariantCulture, out posX) && float.TryParse(array3[6], NumberStyles.Float, CultureInfo.InvariantCulture, out posY) && float.TryParse(array3[7], NumberStyles.Float, CultureInfo.InvariantCulture, out posZ) && int.TryParse(array3[8], NumberStyles.Integer, CultureInfo.InvariantCulture, out type) && type >= 0 && int.TryParse(array3[10], NumberStyles.Integer, CultureInfo.InvariantCulture, out signConfig1) && int.TryParse(array3[11], NumberStyles.Integer, CultureInfo.InvariantCulture, out signConfig2))
-								{
-									string dock = ((string.IsNullOrWhiteSpace(array3[9]) || array3[9] == "?") ? null : array3[9]);
-									BasePart basePart = new BasePart(array3[0], new Int3(cellX, cellY, cellZ), index, new Vector3(posX, posY, posZ), type, dock, BaseFixer.GetBaseRoot(array3[0]), BaseFixer.GetSubRoot(dock), signConfig1, signConfig2, string.Compare(array3[12], "True", true, CultureInfo.InvariantCulture) == 0, BaseFixer.RestoreSignElements(array3[13]));
-									BaseFixer.BaseParts.Add(basePart);
-									if (dock != null)
-									{
-										SubControlFixer.DockedSubs[dock] = basePart;
-									}
-								}
-							}
-						}
-					}
-					Logger.Info("Base parts loaded. Player built {0} custom base parts.", new object[] { BaseFixer.BaseParts.Count });
-					return;
-				}
-				Logger.Info("No base parts saved at \"" + text + "\".");
-				return;
-			}
+                Logger.Message($"Loaded {loadedFromTxt} base parts from TXT.");
+            }
+
+            string jsonText = FilesHelper.Combine(saveFolderPath, "baseparts.json");
+            if (!File.Exists(jsonText))
+                Logger.Message("No saved base parts found at \"" + jsonText + "\".");
 			else
-			{
-				Logger.Info("Could not find save slot for base parts.");
-			}
-		}
+            {
+                Logger.Message("Loading base parts from \"" + jsonText + "\"...");
+                int loadedFromJson = 0;
+				List<BasePartSaveData> jsonList;
+
+                try
+				{
+                    jsonList = JsonWriter.ReadJson(File.ReadAllLines(jsonText, Encoding.UTF8));
+				}
+				catch (System.Exception ex)
+                {
+                    jsonList = null;
+                    Logger.Error("Exception caught while loading base parts from JSON. Exception=[" + ex.ToString() + "]");
+                }
+                if (jsonList != null && jsonList.Count > 0)
+                {
+					foreach (BasePartSaveData data in jsonList)
+                    {
+						if (!IsInBaseParts(data.id))
+						{
+							string dock = ((string.IsNullOrWhiteSpace(data.dock) || data.dock == "?") ? null : data.dock);
+							BasePart basePart = new BasePart(data.id, new Int3(data.cellX, data.cellY, data.cellZ), data.index, new Vector3(data.positionX, data.positionY, data.positionZ), data.type, dock, BaseFixer.GetBaseRoot(data.id), BaseFixer.GetSubRoot(dock), data.signConfig1, data.signConfig2, data.signConfig3, BaseFixer.RestoreSignElements(data.signConfig4));
+							BaseFixer.BaseParts.Add(basePart);
+							if (dock != null)
+								SubControlFixer.DockedSubs[dock] = basePart;
+							++loadedFromJson;
+						}
+						else
+							Logger.Message($"Found JSON base part [{data.id}] already loaded through TXT. Skipping.");
+                    }
+                }
+                Logger.Message($"Loaded {loadedFromJson} base parts from JSON.");
+            }
+
+            Logger.Message($"Player built {BaseFixer.BaseParts.Count} custom base parts.");
+        }
 
 		public static void SaveBaseParts()
 		{
 			string text = "";
 			List<BasePartSaveData> basePartSaveData = new List<BasePartSaveData>();
-			foreach (BasePart basePart in BaseFixer.BaseParts)
-			{
-				if (basePart.type >= 0 && !string.IsNullOrEmpty(basePart.id))
-				{
-					BaseRoot root = basePart.root;
-					Transform transform;
-					if (root == null)
-					{
-						transform = null;
-					}
-					else
-					{
-						GameObject gameObject = root.gameObject;
-						transform = ((gameObject != null) ? gameObject.transform : null);
-					}
-                    System.Tuple<int, int, bool, string> signConfig = BaseFixer.GetSignConfig(transform, basePart.position);
-					basePartSaveData.Add(new BasePartSaveData
-					{
-						basePart =
+			bool noBaseParts = true;
+			if (BaseFixer.BaseParts != null && BaseFixer.BaseParts.Count > 0)
+				foreach (BasePart basePart in BaseFixer.BaseParts)
+					if (basePart.type >= 0 && !string.IsNullOrEmpty(basePart.id))
+                    {
+                        noBaseParts = false;
+                        BaseRoot root = basePart.root;
+						Transform transform;
+						if (root == null)
+							transform = null;
+						else
+						{
+							GameObject gameObject = root.gameObject;
+							transform = ((gameObject != null) ? gameObject.transform : null);
+						}
+						System.Tuple<int, int, bool, string> signConfig = BaseFixer.GetSignConfig(transform, basePart.position);
+						basePartSaveData.Add(new BasePartSaveData
 						{
 							id = basePart.id,
-							cell = {
-								x = basePart.cell.x,
-								y = basePart.cell.y,
-								z = basePart.cell.z
-							},
-                            index = basePart.index,
-							position = {
-								x = basePart.position.x,
-								y = basePart.position.y,
-								z = basePart.position.z
-							},
-                            type = basePart.type,
-							dock = string.IsNullOrEmpty(basePart.dock) ? "?" : basePart.dock
-						},
-						signConfig =
-                        {
-                            config1 = signConfig.Item1,
-                            config2 = signConfig.Item2,
-                            config3 = signConfig.Item3,
-                            config4 = signConfig.Item4
-                        }
-					});
-					text += string.Format(CultureInfo.InvariantCulture, "{0}/{1}/{2}/{3}/{4}/{5}/{6}/{7}/{8}/{9}/{10}/{11}/{12}/{13}{14}", new object[]
-					{
-						basePart.id,
-						basePart.cell.x.ToString(CultureInfo.InvariantCulture),
-						basePart.cell.y.ToString(CultureInfo.InvariantCulture),
-						basePart.cell.z.ToString(CultureInfo.InvariantCulture),
-						basePart.index.ToString(CultureInfo.InvariantCulture),
-						basePart.position.x.ToString(CultureInfo.InvariantCulture),
-						basePart.position.y.ToString(CultureInfo.InvariantCulture),
-						basePart.position.z.ToString(CultureInfo.InvariantCulture),
-						basePart.type.ToString(CultureInfo.InvariantCulture),
-						string.IsNullOrEmpty(basePart.dock) ? "?" : basePart.dock,
-						signConfig.Item1.ToString(CultureInfo.InvariantCulture),
-						signConfig.Item2.ToString(CultureInfo.InvariantCulture),
-						signConfig.Item3 ? "True" : "False",
-						signConfig.Item4,
-						System.Environment.NewLine
-					});
-                }
-            }
+							cellX = basePart.cell.x,
+							cellY = basePart.cell.y,
+							cellZ = basePart.cell.z,
+							index = basePart.index,
+							positionX = basePart.position.x,
+							positionY = basePart.position.y,
+							positionZ = basePart.position.z,
+							type = basePart.type,
+							dock = string.IsNullOrEmpty(basePart.dock) ? "?" : basePart.dock,
+							signConfig1 = signConfig.Item1,
+							signConfig2 = signConfig.Item2,
+							signConfig3 = signConfig.Item3,
+							signConfig4 = signConfig.Item4
+						});
+						text += string.Format(CultureInfo.InvariantCulture, "{0}/{1}/{2}/{3}/{4}/{5}/{6}/{7}/{8}/{9}/{10}/{11}/{12}/{13}{14}", new object[]
+						{
+							basePart.id,
+							basePart.cell.x.ToString(CultureInfo.InvariantCulture),
+							basePart.cell.y.ToString(CultureInfo.InvariantCulture),
+							basePart.cell.z.ToString(CultureInfo.InvariantCulture),
+							basePart.index.ToString(CultureInfo.InvariantCulture),
+							basePart.position.x.ToString(CultureInfo.InvariantCulture),
+							basePart.position.y.ToString(CultureInfo.InvariantCulture),
+							basePart.position.z.ToString(CultureInfo.InvariantCulture),
+							basePart.type.ToString(CultureInfo.InvariantCulture),
+							string.IsNullOrEmpty(basePart.dock) ? "?" : basePart.dock,
+							signConfig.Item1.ToString(CultureInfo.InvariantCulture),
+							signConfig.Item2.ToString(CultureInfo.InvariantCulture),
+							signConfig.Item3 ? "True" : "False",
+							signConfig.Item4,
+							System.Environment.NewLine
+						});
+					}
+
             string saveFolderPath = FilesHelper.GetSaveFolderPath();
             if (saveFolderPath.Contains("/test/"))
             {
@@ -227,7 +239,6 @@ namespace CyclopsDockingMod.Fixers
             }
             if (!Directory.Exists(saveFolderPath))
             {
-				if (basePartSaveData.Count == 0) return; //do not need to remove old save data
                 try
                 {
                     Directory.CreateDirectory(saveFolderPath);
@@ -244,17 +255,9 @@ namespace CyclopsDockingMod.Fixers
             }
             string text2 = FilesHelper.Combine(saveFolderPath, "baseparts.json");
             string text3 = FilesHelper.Combine(saveFolderPath, "baseparts.txt");
-            if (basePartSaveData.Count > 0)
+            if (!noBaseParts)
             {
-                Logger.Info($"Saving {BaseFixer.BaseParts.Count} base parts to \"{text2}\" with legacy \"{text3}\" for backwards compatibility.");
-                try
-                {
-                    File.WriteAllText(text2, JArray.FromObject(basePartSaveData).ToString(), Encoding.UTF8);
-                }
-                catch (System.Exception ex2)
-                {
-                    Logger.Error($"Exception caught while saving base parts at [{text2}]. Exception=[{ex2.ToString()}]");
-                }
+                Logger.Message($"Saving {BaseFixer.BaseParts.Count} base parts to \"{text3}\" (and to \"{text2}\" as additional format).");
                 try
                 {
                     File.WriteAllText(text3, text, Encoding.UTF8);
@@ -263,12 +266,20 @@ namespace CyclopsDockingMod.Fixers
                 {
                     Logger.Error($"Exception caught while saving base parts at [{text3}]. Exception=[{ex2.ToString()}]");
                 }
+                try
+                {
+                    File.WriteAllText(text2, JsonWriter.WriteJson(basePartSaveData), Encoding.UTF8);
+                }
+                catch (System.Exception ex2)
+                {
+                    Logger.Error($"Exception caught while saving base parts at [{text2}]. Exception=[{ex2.ToString()}]");
+                }
             }
 			else
 			{
                 if (File.Exists(text2))
                 {
-                    Logger.Info($"Deleting old baseparts info \"{text2}\"");
+                    Logger.Message($"Deleting old baseparts info at \"{text2}\"");
                     try
                     {
                         File.Delete(text2);
@@ -280,7 +291,7 @@ namespace CyclopsDockingMod.Fixers
                 }
                 if (File.Exists(text3))
                 {
-                    Logger.Info($"Deleting old legacy baseparts info \"{text3}\"");
+                    Logger.Message($"Deleting old baseparts info at \"{text3}\"");
                     try
                     {
                         File.Delete(text3);
@@ -878,26 +889,20 @@ namespace CyclopsDockingMod.Fixers
 
     public struct BasePartSaveData
 	{
-        public struct BasePart
-        {
-            public string id;
-			public struct Vec3i { public int x, y, z; }
-            public Vec3i cell;
-            public int index;
-            public struct Vec3f { public float x, y, z; }
-            public Vec3f position;
-            public int type;
-            public string dock;
-        }
-        public struct SignConfig
-        {
-            public int config1;
-            public int config2;
-            public bool config3;
-            public string config4;
-        }
+        public string id;
+		public int cellX;
+		public int cellY;
+		public int cellZ;
+        public int index;
+        public float positionX;
+        public float positionY;
+        public float positionZ;
+        public int type;
+        public string dock;
 
-        public BasePart basePart;
-        public SignConfig signConfig;
+        public int signConfig1;
+        public int signConfig2;
+        public bool signConfig3;
+        public string signConfig4;
     }
 }

@@ -80,7 +80,7 @@ namespace CyclopsDockingMod
 					SubControlFixer.AutoDockingTriggerSqrRange = Mathf.Pow((float)num, 2f);
 					SubControlFixer.AutoDockingUndockSqrRange = Mathf.Pow((float)num + 5f, 2f);
 					SubControlFixer.AutoDockingDetectSqrRange = Mathf.Pow((float)num + 6f, 2f);
-					Logger.Info("Loaded autoDockingRange: " + num.ToString(CultureInfo.InvariantCulture) + "m");
+					Logger.Message("Loaded autoDockingRange: " + num.ToString(CultureInfo.InvariantCulture) + "m");
 					return;
 				}
 				Logger.Warning("Bad value « " + num.ToString(CultureInfo.InvariantCulture) + " » for autoDockingRange (must be between 10 and 50). Default value will be used.");
@@ -99,7 +99,7 @@ namespace CyclopsDockingMod
 					CyclopsDockingModUI.CfgManualDockingMode = flag;
 					CyclopsDockingModUI.CfgManualDockingModeOrig = flag;
 					SubControlFixer.AutoDocking = !flag;
-					Logger.Info("Loaded enableManualDocking: " + (flag ? "true" : "false"));
+					Logger.Message("Loaded enableManualDocking: " + (flag ? "true" : "false"));
 					return;
 				}
 				Logger.Warning("Bad value « " + str.Substring("enableManualDocking=".Length) + " » for manual docking toggle (wrong boolean string value). Default value will be used.");
@@ -112,7 +112,7 @@ namespace CyclopsDockingMod
 				{
 					CyclopsDockingModUI.CfgOpenUIKeyText = keyCode.ToString();
 					CyclopsDockingModUI.OpenUI = keyCode;
-					Logger.Info("Loaded openModSettingsKey: " + keyCode.ToString());
+					Logger.Message("Loaded openModSettingsKey: " + keyCode.ToString());
 					return;
 				}
 				Logger.Warning("Bad value « " + str.Substring("openModSettingsKey=".Length) + " » for openModSettingsKey (must be a valid KeyCode string and have between 1 and 20 characters maximum). Default value will be used.");
@@ -125,7 +125,7 @@ namespace CyclopsDockingMod
 				{
 					CyclopsDockingModUI.CfgManualDockingKeyText = keyCode2.ToString();
 					SubControlFixer.ManualDockingKey = keyCode2;
-					Logger.Info("Loaded manualDockingKey: " + keyCode2.ToString());
+					Logger.Message("Loaded manualDockingKey: " + keyCode2.ToString());
 					return;
 				}
 				Logger.Warning("Bad value « " + str.Substring("manualDockingKey=".Length) + " » for manualDockingKey (must be a valid KeyCode string and have between 1 and 20 characters maximum). Default value will be used.");
@@ -144,7 +144,7 @@ namespace CyclopsDockingMod
 					CyclopsDockingModUI.CfgRechargeSpeed = (float)num2;
 					CyclopsDockingModUI.CfgRechargeSpeedOrig = CyclopsDockingModUI.CfgRechargeSpeed;
 					SubRootFixer.CyclopsRechargeSpeed = CyclopsDockingModUI.CfgRechargeSpeed * 0.0004f;
-					Logger.Info("Loaded powercellsChargeSpeed: " + num2.ToString(CultureInfo.InvariantCulture) + "/100");
+					Logger.Message("Loaded powercellsChargeSpeed: " + num2.ToString(CultureInfo.InvariantCulture) + "/100");
 					return;
 				}
 				Logger.Warning("Bad value « " + num2.ToString(CultureInfo.InvariantCulture) + " » for powercellsChargeSpeed (must be between 1 and 100). Default value will be used.");
@@ -155,7 +155,7 @@ namespace CyclopsDockingMod
 				if (str.Length > "noCyclopsText=".Length && str.Length <= 40 + "noCyclopsText=".Length)
 				{
 					ConfigOptions.LblNoCyclopsDocked = str.Substring("noCyclopsText=".Length);
-					Logger.Info("Loaded noCyclopsText: « " + ConfigOptions.LblNoCyclopsDocked + " »");
+					Logger.Message("Loaded noCyclopsText: « " + ConfigOptions.LblNoCyclopsDocked + " »");
 					return;
 				}
 				Logger.Warning("Bad value « " + str.Substring("noCyclopsText=".Length) + " » for noCyclopsText (must be between 1 and 40 characters maximum). Default value will be used.");
@@ -166,7 +166,7 @@ namespace CyclopsDockingMod
 				if (str.Length > "cyclopsDockedText=".Length && str.Length <= 40 + "cyclopsDockedText=".Length && str.Contains("{0}"))
 				{
 					ConfigOptions.LblCyclopsDocked = str.Substring("cyclopsDockedText=".Length);
-					Logger.Info("Loaded cyclopsDockedText: « " + ConfigOptions.LblCyclopsDocked + " »");
+					Logger.Message("Loaded cyclopsDockedText: « " + ConfigOptions.LblCyclopsDocked + " »");
 					return;
 				}
 				Logger.Warning("Bad value « " + str.Substring("cyclopsDockedText=".Length) + " » for cyclopsDockedText (string must contain the special symbol and must be between 1 and 40 characters maximum). Default value will be used.");
@@ -177,7 +177,7 @@ namespace CyclopsDockingMod
 				if (str.Length > "climbIntoCyclopsText=".Length && str.Length <= 40 + "climbIntoCyclopsText=".Length)
 				{
 					ConfigOptions.LblClimbInCyclops = str.Substring("climbIntoCyclopsText=".Length);
-					Logger.Info("Loaded climbIntoCyclopsText: « " + ConfigOptions.LblClimbInCyclops + " »");
+					Logger.Message("Loaded climbIntoCyclopsText: « " + ConfigOptions.LblClimbInCyclops + " »");
 					return;
 				}
 				Logger.Warning("Bad value « " + str.Substring("climbIntoCyclopsText=".Length) + " » for climbIntoCyclopsText (must be between 1 and 40 characters maximum). Default value will be used.");
@@ -195,7 +195,7 @@ namespace CyclopsDockingMod
 				{
 					CyclopsDockingModUI.CfgSignTextScale = num3;
 					CyclopsDockingModUI.CfgSignTextScaleOrig = CyclopsDockingModUI.CfgSignTextScale;
-					Logger.Info("Loaded defaultTextSize: " + CyclopsDockingModUI.CfgSignTextScale.ToString(CultureInfo.InvariantCulture));
+					Logger.Message("Loaded defaultTextSize: " + CyclopsDockingModUI.CfgSignTextScale.ToString(CultureInfo.InvariantCulture));
 					return;
 				}
 				Logger.Warning("Bad value « " + num3.ToString(CultureInfo.InvariantCulture) + " » for sign's text size (must be between -3 and 3). Default value will be used.");
@@ -214,7 +214,7 @@ namespace CyclopsDockingMod
 					CyclopsDockingModUI.CfgSignTextColorVal = num4;
 					CyclopsDockingModUI.CfgSignTextColor = CyclopsDockingModUI.CfgSignTextColors[num4];
 					CyclopsDockingModUI.CfgSignTextColorOrig = CyclopsDockingModUI.CfgSignTextColor;
-					Logger.Info("Loaded defaultTextColor: " + CyclopsDockingModUI.CfgSignTextColor);
+					Logger.Message("Loaded defaultTextColor: " + CyclopsDockingModUI.CfgSignTextColor);
 					return;
 				}
 				Logger.Warning("Bad value « " + num4.ToString(CultureInfo.InvariantCulture) + " » for sign's text color (must be between 0 and 7). Default value will be used.");
@@ -232,7 +232,7 @@ namespace CyclopsDockingMod
 				{
 					CyclopsDockingModUI.CfgSignBackgroundVisible = flag2;
 					CyclopsDockingModUI.CfgSignBackgroundVisibleOrig = flag2;
-					Logger.Info("Loaded defaultBackground: " + (flag2 ? "true" : "false"));
+					Logger.Message("Loaded defaultBackground: " + (flag2 ? "true" : "false"));
 					return;
 				}
 				Logger.Warning("Bad value « " + str.Substring("defaultBackground=".Length) + " » for sign's background visibility (wrong boolean string value). Default value will be used.");
@@ -251,7 +251,7 @@ namespace CyclopsDockingMod
 					CyclopsDockingModUI.CfgLadderTintColorVal = num5;
 					CyclopsDockingModUI.CfgLadderTintColor = CyclopsDockingModUI.CfgLadderTintColors[num5];
 					CyclopsDockingModUI.CfgLadderTintColorOrig = CyclopsDockingModUI.CfgLadderTintColor;
-					Logger.Info("Loaded ladderTintColor: " + CyclopsDockingModUI.CfgLadderTintColor);
+					Logger.Message("Loaded ladderTintColor: " + CyclopsDockingModUI.CfgLadderTintColor);
 					return;
 				}
 				Logger.Warning("Bad value « " + num5.ToString(CultureInfo.InvariantCulture) + " » for ladder's tint color (must be between 0 and 9). Default value will be used.");
@@ -262,7 +262,7 @@ namespace CyclopsDockingMod
 				if (str.Length > "basePieceName=".Length && str.Length <= 40 + "basePieceName=".Length)
 				{
 					CyclopsHatchConnector.CyclopsHatchConnectorName = str.Substring("basePieceName=".Length);
-					Logger.Info("Loaded basePieceName: « " + CyclopsHatchConnector.CyclopsHatchConnectorName + " »");
+					Logger.Message("Loaded basePieceName: « " + CyclopsHatchConnector.CyclopsHatchConnectorName + " »");
 					return;
 				}
 				Logger.Warning("Bad value « " + str.Substring("basePieceName=".Length) + " » for basePieceName (must be between 1 and 40 characters maximum). Default value will be used.");
@@ -273,7 +273,7 @@ namespace CyclopsDockingMod
 				if (str.Length > "basePieceDescription=".Length && str.Length <= 200 + "basePieceDescription=".Length)
 				{
 					CyclopsHatchConnector.CyclopsHatchConnectorDescription = str.Substring("basePieceDescription=".Length);
-					Logger.Info("Loaded basePieceDescription: « " + CyclopsHatchConnector.CyclopsHatchConnectorDescription + " »");
+					Logger.Message("Loaded basePieceDescription: « " + CyclopsHatchConnector.CyclopsHatchConnectorDescription + " »");
 					return;
 				}
 				Logger.Warning("Bad value « " + str.Substring("basePieceName=".Length) + " » for basePieceName (must be between 1 and 200 characters maximum). Default value will be used.");
@@ -295,7 +295,7 @@ namespace CyclopsDockingMod
 					{
 						text = text + ((text.Length > 0) ? "," : "") + techType.AsString(false);
 					}
-					Logger.Info("Loaded basePieceRecipe: " + text);
+					Logger.Message("Loaded basePieceRecipe: " + text);
 					return;
 				}
 				Logger.Warning("Bad recipe provided for Cyclops docking base piece. Default recipe will be used.");
@@ -312,7 +312,7 @@ namespace CyclopsDockingMod
 				if (bool.TryParse(str.Substring("enableAutoPilotFeature=".Length), out flag3))
 				{
 					ConfigOptions.EnableAutopilotFeature = flag3;
-					Logger.Info("Loaded enableAutoPilotFeature: " + (flag3 ? "true" : "false"));
+					Logger.Message("Loaded enableAutoPilotFeature: " + (flag3 ? "true" : "false"));
 					return;
 				}
 				Logger.Warning("Bad value « " + str.Substring("enableAutoPilotFeature=".Length) + " » for auto-pilot feature toggle (wrong boolean string value). Default value will be used.");
@@ -341,7 +341,7 @@ namespace CyclopsDockingMod
 								break;
 							}
 							string text2 = str.Substring(keyValuePair.Key.Length);
-							Logger.Info(string.Concat(new string[]
+							Logger.Message(string.Concat(new string[]
 							{
 								"Loaded ",
 								keyValuePair.Key.Replace('=', ':'),
@@ -500,7 +500,7 @@ namespace CyclopsDockingMod
 					CyclopsDockingModUI.CfgSimpleDockingManeuver = flag4;
 					CyclopsDockingModUI.CfgSimpleDockingManeuverOrig = flag4;
 					SubControlFixer.SimpleDocking = flag4;
-					Logger.Info("Loaded simpleDockingManeuver: " + (flag4 ? "true" : "false"));
+					Logger.Message("Loaded simpleDockingManeuver: " + (flag4 ? "true" : "false"));
 					return;
 				}
 				Logger.Warning("Bad value « " + str.Substring("simpleDockingManeuver=".Length) + " » for simple docking maneuver toggle (wrong boolean string value). Default value will be used.");
@@ -554,7 +554,7 @@ namespace CyclopsDockingMod
 			string[] array = text.Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
 			if (array != null)
 			{
-				Logger.Info("Loading configuration from \"" + ConfigOptions.ConfigFilePath + "\"...");
+				Logger.Message("Loading configuration from \"" + ConfigOptions.ConfigFilePath + "\"...");
 				string[] array2 = array;
 				for (int i = 0; i < array2.Length; i++)
 					ConfigOptions.ProcessConfigLine(array2[i]);
@@ -583,7 +583,7 @@ namespace CyclopsDockingMod
 								if (num2 > num && num2 < text.Length)
 								{
 									string text4 = text.Substring(num, num2 - num) + Environment.NewLine;
-									Logger.Info(string.Concat(new string[]
+									Logger.Message(string.Concat(new string[]
 									{
 										"Replacing configuration [",
 										text4.Replace(Environment.NewLine, ""),

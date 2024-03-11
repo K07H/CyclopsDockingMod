@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using BepInEx.Logging;
 
 namespace CyclopsDockingMod
@@ -38,7 +39,7 @@ namespace CyclopsDockingMod
 		internal static void Log(LogLevel level, string text, params object[] args)
 		{
 			if (args != null && args.Length > 0)
-				text = string.Format(text, args);
+				text = string.Format(CultureInfo.InvariantCulture, text, args);
 			if (CyclopsDockingMod_EntryPoint._logger != null)
 				CyclopsDockingMod_EntryPoint._logger.Log(level, text);
 			else

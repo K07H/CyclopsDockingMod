@@ -486,13 +486,13 @@ namespace CyclopsDockingMod.Routing
 			{
 				if (!Directory.Exists(saveFolderPath))
 				{
-					Logger.Info("No save directory found for Cyclops auto-pilot routes at \"" + saveFolderPath + "\".");
+					Logger.Message("No save directory found for Cyclops auto-pilot routes at \"" + saveFolderPath + "\".");
 					return;
 				}
 				string text = FilesHelper.Combine(saveFolderPath, "routes.txt");
 				if (File.Exists(text))
 				{
-					Logger.Info("Loading Cyclops auto-pilot routes from \"" + text + "\".");
+					Logger.Message("Loading Cyclops auto-pilot routes from \"" + text + "\".");
 					string[] array;
 					try
 					{
@@ -513,14 +513,14 @@ namespace CyclopsDockingMod.Routing
 									AutoPilot.Routes.Add(route);
 							}
 					}
-					Logger.Info("Cyclops auto-pilot routes loaded. Player made {0} custom routes.", new object[] { AutoPilot.Routes.Count });
+					Logger.Message("Cyclops auto-pilot routes loaded. Player made {0} custom routes.", new object[] { AutoPilot.Routes.Count });
 					return;
 				}
-				Logger.Info("No Cyclops auto-pilot routes saved at \"" + text + "\".");
+				Logger.Message("No Cyclops auto-pilot routes saved at \"" + text + "\".");
 				return;
 			}
 			else
-				Logger.Info("Could not find save slot for Cyclops auto-pilot routes.");
+				Logger.Message("Could not find save slot for Cyclops auto-pilot routes.");
 		}
 
 		internal static void SaveRoutes()
@@ -555,7 +555,7 @@ namespace CyclopsDockingMod.Routing
 					return;
 				}
 				string text2 = FilesHelper.Combine(saveFolderPath, "routes.txt");
-				Logger.Info("Saving {0} Cyclops auto-pilot routes to \"{1}\".", new object[]
+				Logger.Message("Saving {0} Cyclops auto-pilot routes to \"{1}\".", new object[]
 				{
 					AutoPilot.Routes.Count,
 					text2

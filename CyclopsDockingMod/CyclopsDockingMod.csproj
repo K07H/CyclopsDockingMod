@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net472</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>CyclopsDockingMod</AssemblyName>
     <Description>A mod for Subnautica that adds a docking base piece to dock your Cyclops. Also adds Cyclops autopilot feature.</Description>
     <Version>2.1.0</Version>
@@ -11,7 +11,7 @@
     <PackageId>CyclopsDockingMod</PackageId>
     <Copyright>Copyright © 2019-2024. Tous droits réservés.</Copyright>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <LangVersion>11</LangVersion>
+    <LangVersion>latest</LangVersion>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <OutputType>Library</OutputType>
@@ -23,17 +23,6 @@
     <Configurations>Debug;Release;DebugLegacy;ReleaseLegacy;DebugNauti;ReleaseNauti</Configurations>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;SUBNAUTICA;SUBNAUTICA_EXP;SUBNAUTICA_NAUTILUS;DEBUG_CURSOR_LOCK;DEBUG_AUTOPILOT_CLICK;DEBUG_CYCLOPS_HUD</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <SubnauticaDir>S:\Steam\steamapps\common\Subnautica</SubnauticaDir>
-    <Dependencies>$(SubnauticaDir)\Subnautica_Data\Managed</Dependencies>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'DebugSML|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -67,16 +56,6 @@
     <Dependencies>$(SubnauticaDir)\Subnautica_Data\Managed</Dependencies>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>none</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>SUBNAUTICA;SUBNAUTICA_EXP;SUBNAUTICA_NAUTILUS;DEBUG_BEPINEX_CONFIG</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>2</WarningLevel>
-    <SubnauticaDir>S:\Steam\steamapps\common\Subnautica</SubnauticaDir>
-    <Dependencies>$(SubnauticaDir)\Subnautica_Data\Managed</Dependencies>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'ReleaseSML|AnyCPU' ">
     <DebugType>none</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -210,6 +189,7 @@
     <Compile Include="Fixers\uGUI_MainMenuFixer.cs" />
     <Compile Include="Fixers\UtilsFixer.cs" />
     <Compile Include="IBaseItem.cs" />
+    <Compile Include="JsonWriter.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Routing\AutoPilot.cs" />
     <Compile Include="Routing\MyInputField.cs" />
@@ -217,16 +197,6 @@
     <Compile Include="Routing\SubRoutePlaying.cs" />
     <Compile Include="StylesHelper.cs" />
     <Compile Include="UI\CyclopsDockingModUI.cs" />
-    <PackageReference Include="BepInEx.Analyzers" Version="1.*" PrivateAssets="all" />
-    <PackageReference Include="BepInEx.Core" Version="5.4.21" />
-    <PackageReference Include="BepInEx.PluginInfoProps" Version="1.1.0" />
-    <PackageReference Include="UnityEngine.Modules" Version="2019.4.36" IncludeAssets="compile" />
-    <PackageReference Include="Subnautica.GameLibs" Version="71288.0.0-r.0" />
-    <PackageReference Include="PolySharp" Version="1.13.1" />
-    <PackageReference Include="Subnautica.Nautilus" Version="1.*-*" PrivateAssets="all" />
-  </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework.TrimEnd(`0123456789`))' == 'net'">
-    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2" PrivateAssets="all" />
   </ItemGroup>
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <Exec Command="xcopy /Y /I &quot;$(TargetPath)&quot; &quot;S:\Steam\steamapps\common\Subnautica\BepInEx\plugins\CyclopsDockingMod\&quot;" />

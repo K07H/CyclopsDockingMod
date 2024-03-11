@@ -72,7 +72,7 @@ namespace CyclopsDockingMod.Fixers
 					int num3 = 3;
 					vector = transform.position;
 					array[num3] = vector.z.ToString("0.00", CultureInfo.InvariantCulture);
-					Logger.Info(text, array);
+					Logger.Message(text, array);
 					SubControlFixer.CleanUp(SubControlFixer.DockedSubs[component.Id], component.Id, true);
 					SubControlFixer.ToggleTrap(__instance, false, false);
 					if (SubControlFixer.DockedSubs[component.Id].trapOpened)
