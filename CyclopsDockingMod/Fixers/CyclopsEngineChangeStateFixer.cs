@@ -27,15 +27,20 @@ namespace CyclopsDockingMod.Fixers
 			if (text != null)
 			{
 				if (text.StartsWith("CyclopsAutoPilot"))
-				{
-					string id = __instance.subRoot.GetComponent<PrefabIdentifier>().Id;
-					bool isPlayingRoute = AutoPilot.SubsPlayingRoutes[id].IsPlayingRoute;
-					bool flag = AutoPilot.SubsPlayingRoutes[id].SelectedRoute == -2;
-					CyclopsEngineChangeStateFixer._tooltipTextField.SetValue(__instance, isPlayingRoute ? "CyclopsAutoPilotOff" : (flag ? "CyclopsAutoPilotCreate" : "CyclopsAutoPilotOn"));
+                {
+                    bool isPlayingRoute = false;
+                    bool isCreatingRoute = false;
+                    string pid = __instance.subRoot.GetComponent<PrefabIdentifier>().Id;
+                    if (pid != null && AutoPilot.SubsPlayingRoutes != null && AutoPilot.SubsPlayingRoutes.ContainsKey(pid))
+                    {
+                        isPlayingRoute = AutoPilot.SubsPlayingRoutes[pid].IsPlayingRoute;
+                        isCreatingRoute = AutoPilot.SubsPlayingRoutes[pid].SelectedRoute == -2;
+                    }
+					CyclopsEngineChangeStateFixer._tooltipTextField.SetValue(__instance, isPlayingRoute ? "CyclopsAutoPilotOff" : (isCreatingRoute ? "CyclopsAutoPilotCreate" : "CyclopsAutoPilotOn"));
 					CyclopsEngineChangeStateFixer._mouseHoverField.SetValue(__instance, true);
 					return false;
 				}
-				if (text.StartsWith("CyclopsSelectRoute") || text.StartsWith("CyclopsEditRoute") || text.StartsWith("CyclopsRemoveRoute") || text.StartsWith("CyclopsConfirmRemove") || text.StartsWith("CyclopsCancelRemove"))
+				else if (text.StartsWith("CyclopsSelectRoute") || text.StartsWith("CyclopsEditRoute") || text.StartsWith("CyclopsRemoveRoute") || text.StartsWith("CyclopsConfirmRemove") || text.StartsWith("CyclopsCancelRemove"))
 				{
 					CyclopsEngineChangeStateFixer._mouseHoverField.SetValue(__instance, true);
 					return false;
@@ -69,25 +74,44 @@ namespace CyclopsDockingMod.Fixers
 					if ((bool)CyclopsEngineChangeStateFixer._mouseHoverField.GetValue(__instance))
 					{
 						if (text == "CyclopsAutoPilotCreate")
+#if SUBNAUTICA_EXP
 							HandReticle.main.SetText(HandReticle.TextType.Hand, AutoPilot.Lbl_BtnAutoPilot_RecordTooltip, false, GameInput.Button.LeftHand);
+#else
+                            HandReticle.main.SetInteractText(AutoPilot.Lbl_BtnAutoPilot_RecordTooltip, false, HandReticle.Hand.Left);
+#endif
 						else if (text == "CyclopsAutoPilotOn")
+#if SUBNAUTICA_EXP
 							HandReticle.main.SetText(HandReticle.TextType.Hand, AutoPilot.Lbl_BtnAutoPilot_StartTooltip, false, GameInput.Button.LeftHand);
+#else
+                            HandReticle.main.SetInteractText(AutoPilot.Lbl_BtnAutoPilot_StartTooltip, false, HandReticle.Hand.Left);
+#endif
 						else
+#if SUBNAUTICA_EXP
 							HandReticle.main.SetText(HandReticle.TextType.Hand, AutoPilot.Lbl_BtnAutoPilot_StopTooltip, false, GameInput.Button.LeftHand);
+#else
+                            HandReticle.main.SetInteractText(AutoPilot.Lbl_BtnAutoPilot_StopTooltip, false, HandReticle.Hand.Left);
+#endif
 					}
-					string id = __instance.subRoot.GetComponent<PrefabIdentifier>().Id;
-					float num = ((AutoPilot.SubsPlayingRoutes[id].IsPlayingRoute || AutoPilot.SubsPlayingRoutes[id].UndockStartPlaying || AutoPilot.UndockStartRecord || AutoPilot.IsRecording) ? 3f : 0f);
+					string pid = __instance.subRoot.GetComponent<PrefabIdentifier>()?.Id;
+					float num = (((pid != null && AutoPilot.SubsPlayingRoutes.ContainsKey(pid) && (AutoPilot.SubsPlayingRoutes[pid].IsPlayingRoute || AutoPilot.SubsPlayingRoutes[pid].UndockStartPlaying)) || AutoPilot.UndockStartRecord || AutoPilot.IsRecording) ? 3f : 0f);
 					float num2 = Mathf.MoveTowards((float)CyclopsEngineChangeStateFixer._spinSpeedField.GetValue(__instance), num, Time.deltaTime * 15f);
 					CyclopsEngineChangeStateFixer._spinSpeedField.SetValue(__instance, num2);
 					__instance.screwIcon.Rotate(new Vector3(0f, 0f, -(num2 * Time.deltaTime * 60f)), Space.Self);
 					return false;
 				}
-				string text2 = CyclopsEngineChangeStateFixer.RegularTooltip(text);
-				if (text2 != null)
+				else
 				{
-					if ((bool)CyclopsEngineChangeStateFixer._mouseHoverField.GetValue(__instance))
-						HandReticle.main.SetText(HandReticle.TextType.Hand, text2, false, GameInput.Button.LeftHand);
-					return false;
+					string text2 = CyclopsEngineChangeStateFixer.RegularTooltip(text);
+					if (text2 != null)
+					{
+						if ((bool)CyclopsEngineChangeStateFixer._mouseHoverField.GetValue(__instance))
+#if SUBNAUTICA_EXP
+                            HandReticle.main.SetText(HandReticle.TextType.Hand, text2, false, GameInput.Button.LeftHand);
+#else
+                            HandReticle.main.SetInteractText(text2, false, HandReticle.Hand.Left);
+#endif
+                        return false;
+					}
 				}
 			}
 			return true;

@@ -1,7 +1,14 @@
 ﻿using System.Collections.Generic;
 using CyclopsDockingMod.Fixers;
+#if SUBNAUTICA_NAUTI
+using Nautilus.Crafting;
+using Nautilus.Handlers;
+using System.Diagnostics.CodeAnalysis;
+#else
 using SMLHelper.V2.Crafting;
 using SMLHelper.V2.Handlers;
+#endif
+using Ingredient = CraftData.Ingredient;
 using UnityEngine;
 
 namespace CyclopsDockingMod
@@ -43,15 +50,28 @@ namespace CyclopsDockingMod
             UNDOCKED
         }
 
+#if SUBNAUTICA_NAUTI
+        [SetsRequiredMembers]
+        public CyclopsHatchConnector() : base("CyclopsHatchConnector", CyclopsHatchConnectorName, CyclopsHatchConnectorDescription, "CyclopsDockingHatchIconG")
+#else
         public CyclopsHatchConnector()
-		{
+#endif
+        {
+#if SUBNAUTICA_NAUTI
+            GameObject = new GameObject(base.ClassID);
+#else
 			base.ClassID = "CyclopsHatchConnector";
 			base.PrefabFileName = "WorldEntities/Environment/Wrecks/" + base.ClassID;
 			base.GameObject = new GameObject(base.ClassID);
 			base.TechType = TechTypeHandler.AddTechType(base.ClassID, CyclopsHatchConnector.CyclopsHatchConnectorName, CyclopsHatchConnector.CyclopsHatchConnectorDescription, true);
+#endif
 			CyclopsDockingMod.CyclopsHatchConnector = base.TechType;
 			this.IsHabitatBuilder = true;
-			base.Recipe = new TechData
+#if SUBNAUTICA_NAUTI
+            base.Recipe = new RecipeData
+#else
+            base.Recipe = new TechData
+#endif
 			{
 				craftAmount = 1,
 				Ingredients = this.SortIngredients()
@@ -83,10 +103,18 @@ namespace CyclopsDockingMod
 		{
 			if (!this.IsRegistered)
 			{
-				CraftDataHandler.SetTechData(base.TechType, base.Recipe);
+#if SUBNAUTICA_NAUTI
+				CraftDataHandler.SetRecipeData(TechType, Recipe);
+#else
+                CraftDataHandler.SetTechData(base.TechType, base.Recipe);
+#endif
 				CraftDataHandler.AddBuildable(base.TechType);
 				CraftDataHandler.AddToGroup(TechGroup.BasePieces, TechCategory.BasePiece, base.TechType);
+#if SUBNAUTICA_NAUTI
+				this.Register();
+#else
 				PrefabHandler.RegisterPrefab(this);
+#endif
 				SpriteHandler.RegisterSprite(base.TechType, AssetsHelper.Assets.LoadAsset<Sprite>("CyclopsDockingHatchIconG"));
 				this.IsRegistered = true;
 			}

@@ -9,18 +9,24 @@ Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		DebugLegacy|Any CPU = DebugLegacy|Any CPU
+		DebugNauti|Any CPU = DebugNauti|Any CPU
 		Release|Any CPU = Release|Any CPU
 		ReleaseLegacy|Any CPU = ReleaseLegacy|Any CPU
+		ReleaseNauti|Any CPU = ReleaseNauti|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{98959DE3-D74C-4CDB-8583-A720BF07F997}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{98959DE3-D74C-4CDB-8583-A720BF07F997}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{98959DE3-D74C-4CDB-8583-A720BF07F997}.DebugLegacy|Any CPU.ActiveCfg = DebugLegacy|Any CPU
 		{98959DE3-D74C-4CDB-8583-A720BF07F997}.DebugLegacy|Any CPU.Build.0 = DebugLegacy|Any CPU
+		{98959DE3-D74C-4CDB-8583-A720BF07F997}.DebugNauti|Any CPU.ActiveCfg = DebugNauti|Any CPU
+		{98959DE3-D74C-4CDB-8583-A720BF07F997}.DebugNauti|Any CPU.Build.0 = DebugNauti|Any CPU
 		{98959DE3-D74C-4CDB-8583-A720BF07F997}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{98959DE3-D74C-4CDB-8583-A720BF07F997}.Release|Any CPU.Build.0 = Release|Any CPU
 		{98959DE3-D74C-4CDB-8583-A720BF07F997}.ReleaseLegacy|Any CPU.ActiveCfg = ReleaseLegacy|Any CPU
 		{98959DE3-D74C-4CDB-8583-A720BF07F997}.ReleaseLegacy|Any CPU.Build.0 = ReleaseLegacy|Any CPU
+		{98959DE3-D74C-4CDB-8583-A720BF07F997}.ReleaseNauti|Any CPU.ActiveCfg = ReleaseNauti|Any CPU
+		{98959DE3-D74C-4CDB-8583-A720BF07F997}.ReleaseNauti|Any CPU.Build.0 = ReleaseNauti|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

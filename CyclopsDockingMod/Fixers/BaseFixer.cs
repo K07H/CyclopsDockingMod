@@ -27,6 +27,10 @@ namespace CyclopsDockingMod.Fixers
 
         private static FieldInfo _rotation = null;
 
+        private const string CorridorDef = "Base+CorridorDef, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null";
+
+        private const string BasePieceDef = "Base+Piece, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null";
+
         private static System.Type BasePieceType = null;
 
         private static object ConnectorLadderEnum = null;
@@ -521,14 +525,14 @@ namespace CyclopsDockingMod.Fixers
 			if (!BaseFixer._typesInitialized)
 			{
 				if (BaseFixer.CorridorDefType == null)
-					BaseFixer.CorridorDefType = System.Type.GetType("Base+CorridorDef, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null", false, true);
+					BaseFixer.CorridorDefType = System.Type.GetType(CorridorDef, false, true);
 				if ((BaseFixer._piece == null || BaseFixer._rotation == null) && BaseFixer.CorridorDefType != null)
 				{
 					BaseFixer._piece = BaseFixer.CorridorDefType.GetField("piece");
 					BaseFixer._rotation = BaseFixer.CorridorDefType.GetField("rotation");
 				}
 				if (BaseFixer.BasePieceType == null)
-					BaseFixer.BasePieceType = System.Type.GetType("Base+Piece, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null", false, true);
+					BaseFixer.BasePieceType = System.Type.GetType(BasePieceDef, false, true);
 				if (BaseFixer.BasePieceType != null)
 				{
 					if (BaseFixer.ConnectorLadderEnum == null)
