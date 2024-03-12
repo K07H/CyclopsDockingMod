@@ -4,9 +4,9 @@ Enjoy docking your Cyclops to any base with the first modded base piece for Subn
 ----
 Special thanks to:
 
-@MrPurple (for his contribution to provide an alternate version for nautilus).
+@MrPurple *(for his contribution to provide an alternate version for nautilus).*
 
-@FirEmerald (for his contribution to provide an alternate version for nautilus and an additional save file format).
+@FirEmerald *(for his contribution to provide an alternate version for nautilus and an additional save file format).*
 
 ----
 Join my Discord server if you have any questions: https://discord.gg/WDvjt7csWh
