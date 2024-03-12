@@ -26,7 +26,7 @@ namespace CyclopsDockingMod
 			if (!CyclopsDockingMod_EntryPoint._initialized)
 			{
 				CyclopsDockingMod_EntryPoint._initialized = true;
-				base.Logger.LogMessage("INFO: Initializing Cyclops Docking mod...");
+				base.Logger.LogMessage("Initializing Cyclops Docking mod...");
 				try
 				{
 					CyclopsDockingMod.Start();
@@ -34,11 +34,14 @@ namespace CyclopsDockingMod
 				catch (Exception ex)
 				{
 					CyclopsDockingMod_EntryPoint._success = false;
-					base.Logger.LogMessage(string.Format("ERROR: Exception caught! Message=[{0}] StackTrace=[{1}]", ex.Message, ex.StackTrace));
+					base.Logger.LogError(string.Format("Exception caught! Message=[{0}] StackTrace=[{1}]", ex.Message, ex.StackTrace));
 					if (ex.InnerException != null)
-						base.Logger.LogMessage(string.Format("ERROR: Inner exception => Message=[{0}] StackTrace=[{1}]", ex.InnerException.Message, ex.InnerException.StackTrace));
+						base.Logger.LogError(string.Format("Inner exception => Message=[{0}] StackTrace=[{1}]", ex.InnerException.Message, ex.InnerException.StackTrace));
 				}
-				base.Logger.LogMessage(CyclopsDockingMod_EntryPoint._success ? "INFO: Cyclops Docking mod initialized successfully." : "ERROR: Cyclops Docking mod initialization failed.");
+				if (CyclopsDockingMod_EntryPoint._success)
+					base.Logger.LogMessage("Cyclops Docking mod initialized successfully.");
+				else
+					base.Logger.LogError("Cyclops Docking mod initialization failed.");
 			}
 		}
 	}

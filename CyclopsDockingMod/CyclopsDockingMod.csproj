@@ -199,6 +199,6 @@
     <Compile Include="UI\CyclopsDockingModUI.cs" />
   </ItemGroup>
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="xcopy /Y /I &quot;$(TargetPath)&quot; &quot;S:\Steam\steamapps\common\Subnautica\BepInEx\plugins\CyclopsDockingMod\&quot;" />
+    <Exec Command="xcopy /Y /I &quot;$(TargetPath)&quot; &quot;C:\Program Files (x86)\Steam\steamapps\common\Subnautica\BepInEx\plugins\CyclopsDockingMod\&quot;" />
   </Target>
 </Project>

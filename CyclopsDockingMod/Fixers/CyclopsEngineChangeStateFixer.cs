@@ -30,7 +30,7 @@ namespace CyclopsDockingMod.Fixers
                 {
                     bool isPlayingRoute = false;
                     bool isCreatingRoute = false;
-                    string pid = __instance.subRoot.GetComponent<PrefabIdentifier>().Id;
+                    string pid = __instance.subRoot.GetComponent<PrefabIdentifier>()?.Id;
                     if (pid != null && AutoPilot.SubsPlayingRoutes != null && AutoPilot.SubsPlayingRoutes.ContainsKey(pid))
                     {
                         isPlayingRoute = AutoPilot.SubsPlayingRoutes[pid].IsPlayingRoute;
