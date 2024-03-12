@@ -10,10 +10,19 @@ namespace CyclopsDockingMod
 			return Path.GetFullPath(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "../../../SNAppData/SavedGames/", SaveLoadManager.main.GetCurrentSlot(), "CyclopsDockingMod")).Replace('\\', '/');
 		}
 
-		public static string GetSaveFolderPath(string saveGame)
+		public static string GetSaveFolderPathWithSlotName(string saveGame)
 		{
-			string text = FilesHelper.GetSaveFolderPath();
-			if (text.Contains("/test/"))
+			return Path.GetFullPath(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "../../../SNAppData/SavedGames/", saveGame, "CyclopsDockingMod")).Replace('\\', '/');
+		}
+
+        public static string GetSaveFolderPath(string saveGame)
+        {
+            string text;
+            if (!string.IsNullOrEmpty(saveGame))
+                text = FilesHelper.GetSaveFolderPathWithSlotName(saveGame);
+            else
+                text = FilesHelper.GetSaveFolderPath();
+            if (text.Contains("/test/"))
 			{
 				if (string.IsNullOrEmpty(saveGame))
 					return null;
