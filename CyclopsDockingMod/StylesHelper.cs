@@ -125,7 +125,7 @@ namespace CyclopsDockingMod
 			GUILayout.BeginHorizontal(new GUIContent(string.Empty, tooltip), GUI.skin.label, Array.Empty<GUILayoutOption>());
 			GUILayout.BeginHorizontal(new GUILayoutOption[] { prefixWidth });
 			GUILayout.Label(prefix, Array.Empty<GUILayoutOption>());
-			GUILayout.Label(Convert.ToString(selected, CultureInfo.CurrentCulture), StylesHelper._sSliderTipLblStyle, Array.Empty<GUILayoutOption>());
+			GUILayout.Label(Convert.ToString(selected, CultureInfo.CurrentCulture.NumberFormat), StylesHelper._sSliderTipLblStyle, Array.Empty<GUILayoutOption>());
 			GUILayout.FlexibleSpace();
 			GUILayout.EndHorizontal();
 			selected = (float)Math.Round((double)GUILayout.HorizontalSlider(selected, min, max, Array.Empty<GUILayoutOption>()), MidpointRounding.AwayFromZero);

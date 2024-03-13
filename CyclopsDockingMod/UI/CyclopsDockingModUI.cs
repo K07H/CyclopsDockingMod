@@ -163,7 +163,12 @@ namespace CyclopsDockingMod.UI
             {
                 CfgRechargeSpeedOrig = CfgRechargeSpeed;
                 SubRootFixer.CyclopsRechargeSpeed = CfgRechargeSpeed * SubRootFixer.CyclopsRechargeRatioD;
-                ConfigOptions.UpdateConfigFile(Environment.NewLine + "powercellsChargeSpeed=" + Environment.NewLine, Environment.NewLine + "powercellsChargeSpeed=" + Math.Round(CfgRechargeSpeed, MidpointRounding.AwayFromZero).ToString(CultureInfo.InvariantCulture) + Environment.NewLine);
+                var powerCellChargeSpeed = Math.Round(CfgRechargeSpeed, 0, MidpointRounding.AwayFromZero);
+                if (powerCellChargeSpeed < 1d)
+                    powerCellChargeSpeed = 1d;
+                if (powerCellChargeSpeed > 100d)
+                    powerCellChargeSpeed = 100d;
+                ConfigOptions.UpdateConfigFile(Environment.NewLine + "powercellsChargeSpeed=" + Environment.NewLine, Environment.NewLine + "powercellsChargeSpeed=" + Convert.ToInt32(powerCellChargeSpeed, CultureInfo.InvariantCulture.NumberFormat).ToString("D", CultureInfo.InvariantCulture.NumberFormat) + Environment.NewLine);
             }
             if (CfgAutoDockingRange != CfgAutoDockingRangeOrig)
             {
@@ -171,7 +176,7 @@ namespace CyclopsDockingMod.UI
                 SubControlFixer.AutoDockingTriggerSqrRange = Mathf.Pow(CfgAutoDockingRange, 2.0f);
                 SubControlFixer.AutoDockingUndockSqrRange = Mathf.Pow(CfgAutoDockingRange + 5.0f, 2.0f);
                 SubControlFixer.AutoDockingDetectSqrRange = Mathf.Pow(CfgAutoDockingRange + 6.0f, 2.0f);
-                ConfigOptions.UpdateConfigFile(Environment.NewLine + "autoDockingRange=" + Environment.NewLine, Environment.NewLine + "autoDockingRange=" + CfgAutoDockingRange.ToString(CultureInfo.InvariantCulture) + Environment.NewLine);
+                ConfigOptions.UpdateConfigFile(Environment.NewLine + "autoDockingRange=" + Environment.NewLine, Environment.NewLine + "autoDockingRange=" + CfgAutoDockingRange.ToString("D", CultureInfo.InvariantCulture.NumberFormat) + Environment.NewLine);
             }
             if (CfgManualDockingMode != CfgManualDockingModeOrig)
             {
@@ -197,13 +202,13 @@ namespace CyclopsDockingMod.UI
                     case "Purple": CfgLadderTintColorVal = 8; break;
                     case "Pink": CfgLadderTintColorVal = 9; break;
                 }
-                ConfigOptions.UpdateConfigFile(Environment.NewLine + "ladderTintColor=" + Environment.NewLine, Environment.NewLine + "ladderTintColor=" + CfgLadderTintColorVal.ToString(CultureInfo.InvariantCulture) + Environment.NewLine);
+                ConfigOptions.UpdateConfigFile(Environment.NewLine + "ladderTintColor=" + Environment.NewLine, Environment.NewLine + "ladderTintColor=" + CfgLadderTintColorVal.ToString("D", CultureInfo.InvariantCulture.NumberFormat) + Environment.NewLine);
                 ErrorMessage.AddDebug("Ladder tint color set to " + CfgLadderTintColor + ".");
             }
             if (CfgSignTextScale != CfgSignTextScaleOrig)
             {
                 CfgSignTextScaleOrig = CfgSignTextScale;
-                ConfigOptions.UpdateConfigFile(Environment.NewLine + "defaultTextSize=" + Environment.NewLine, Environment.NewLine + "defaultTextSize=" + CfgSignTextScale.ToString(CultureInfo.InvariantCulture) + Environment.NewLine);
+                ConfigOptions.UpdateConfigFile(Environment.NewLine + "defaultTextSize=" + Environment.NewLine, Environment.NewLine + "defaultTextSize=" + CfgSignTextScale.ToString("D", CultureInfo.InvariantCulture.NumberFormat) + Environment.NewLine);
             }
             if (CfgSignTextColor != CfgSignTextColorOrig)
             {
@@ -220,7 +225,7 @@ namespace CyclopsDockingMod.UI
                     case "Blue": CfgSignTextColorVal = 6; break;
                     case "Purple": CfgSignTextColorVal = 7; break;
                 }
-                ConfigOptions.UpdateConfigFile(Environment.NewLine + "defaultTextColor=" + Environment.NewLine, Environment.NewLine + "defaultTextColor=" + CfgSignTextColorVal.ToString(CultureInfo.InvariantCulture) + Environment.NewLine);
+                ConfigOptions.UpdateConfigFile(Environment.NewLine + "defaultTextColor=" + Environment.NewLine, Environment.NewLine + "defaultTextColor=" + CfgSignTextColorVal.ToString("D", CultureInfo.InvariantCulture.NumberFormat) + Environment.NewLine);
                 ErrorMessage.AddDebug("Sign default text color set to " + CfgSignTextColor + ".");
             }
             if (CfgSignBackgroundVisible != CfgSignBackgroundVisibleOrig)

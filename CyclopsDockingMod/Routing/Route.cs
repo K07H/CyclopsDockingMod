@@ -64,20 +64,20 @@ namespace CyclopsDockingMod.Routing
 					int num;
 					float num2;
 					int num3;
-					if (int.TryParse(array[0], NumberStyles.Integer, CultureInfo.InvariantCulture, out num) && num >= 0 && float.TryParse(array[2], NumberStyles.Float, CultureInfo.InvariantCulture, out num2) && num2 >= 0f && int.TryParse(array[3], NumberStyles.Integer, CultureInfo.InvariantCulture, out num3) && num3 >= 1 && num3 <= 3)
+					if (int.TryParse(array[0], NumberStyles.Integer, CultureInfo.InvariantCulture.NumberFormat, out num) && num >= 0 && float.TryParse(array[2], NumberStyles.Float | NumberStyles.AllowThousands | NumberStyles.AllowTrailingSign, CultureInfo.InvariantCulture.NumberFormat, out num2) && num2 >= 0f && int.TryParse(array[3], NumberStyles.Integer, CultureInfo.InvariantCulture.NumberFormat, out num3) && num3 >= 1 && num3 <= 3)
 					{
 						Vector3? vector = null;
 						Vector3? vector2 = null;
-						string text = ((!string.IsNullOrEmpty(array[1])) ? array[1] : string.Format(AutoPilot.Lbl_DefaultRouteName, (num + 1).ToString()));
+						string text = ((!string.IsNullOrEmpty(array[1])) ? array[1] : string.Format(AutoPilot.Lbl_DefaultRouteName, (num + 1).ToString("D", CultureInfo.InvariantCulture.NumberFormat)));
 						float num4;
 						float num5;
 						float num6;
-						if (array[4] != "?" && float.TryParse(array[4], NumberStyles.Float, CultureInfo.InvariantCulture, out num4) && float.TryParse(array[5], NumberStyles.Float, CultureInfo.InvariantCulture, out num5) && float.TryParse(array[6], NumberStyles.Float, CultureInfo.InvariantCulture, out num6))
+						if (array[4] != "?" && float.TryParse(array[4], NumberStyles.Float | NumberStyles.AllowThousands | NumberStyles.AllowTrailingSign, CultureInfo.InvariantCulture.NumberFormat, out num4) && float.TryParse(array[5], NumberStyles.Float | NumberStyles.AllowThousands | NumberStyles.AllowTrailingSign, CultureInfo.InvariantCulture.NumberFormat, out num5) && float.TryParse(array[6], NumberStyles.Float | NumberStyles.AllowThousands | NumberStyles.AllowTrailingSign, CultureInfo.InvariantCulture.NumberFormat, out num6))
 							vector = new Vector3?(new Vector3(num4, num5, num6));
 						float num7;
 						float num8;
 						float num9;
-						if (array[7] != "?" && float.TryParse(array[7], NumberStyles.Float, CultureInfo.InvariantCulture, out num7) && float.TryParse(array[8], NumberStyles.Float, CultureInfo.InvariantCulture, out num8) && float.TryParse(array[9], NumberStyles.Float, CultureInfo.InvariantCulture, out num9))
+						if (array[7] != "?" && float.TryParse(array[7], NumberStyles.Float | NumberStyles.AllowThousands | NumberStyles.AllowTrailingSign, CultureInfo.InvariantCulture.NumberFormat, out num7) && float.TryParse(array[8], NumberStyles.Float | NumberStyles.AllowThousands | NumberStyles.AllowTrailingSign, CultureInfo.InvariantCulture.NumberFormat, out num8) && float.TryParse(array[9], NumberStyles.Float | NumberStyles.AllowThousands | NumberStyles.AllowTrailingSign, CultureInfo.InvariantCulture.NumberFormat, out num9))
 							vector2 = new Vector3?(new Vector3(num7, num8, num9));
 						List<Vector3> list = new List<Vector3>();
 						if (!string.IsNullOrEmpty(array[10]))
@@ -92,7 +92,7 @@ namespace CyclopsDockingMod.Routing
 									float num10;
 									float num11;
 									float num12;
-									if (array4 != null && array4.Length == 3 && float.TryParse(array4[0], NumberStyles.Float, CultureInfo.InvariantCulture, out num10) && float.TryParse(array4[1], NumberStyles.Float, CultureInfo.InvariantCulture, out num11) && float.TryParse(array4[2], NumberStyles.Float, CultureInfo.InvariantCulture, out num12))
+									if (array4 != null && array4.Length == 3 && float.TryParse(array4[0], NumberStyles.Float | NumberStyles.AllowThousands | NumberStyles.AllowTrailingSign, CultureInfo.InvariantCulture.NumberFormat, out num10) && float.TryParse(array4[1], NumberStyles.Float | NumberStyles.AllowThousands | NumberStyles.AllowTrailingSign, CultureInfo.InvariantCulture.NumberFormat, out num11) && float.TryParse(array4[2], NumberStyles.Float | NumberStyles.AllowThousands | NumberStyles.AllowTrailingSign, CultureInfo.InvariantCulture.NumberFormat, out num12))
 										list.Add(new Vector3(num10, num11, num12));
 								}
 							}
@@ -127,27 +127,26 @@ namespace CyclopsDockingMod.Routing
 					array[1] = ((text.Length > 0) ? "#" : "");
 					int num = 2;
 					float num2 = vector.x;
-					array[num] = num2.ToString(CultureInfo.InvariantCulture);
+					array[num] = num2.ToString("G9", CultureInfo.InvariantCulture.NumberFormat);
 					array[3] = "|";
 					int num3 = 4;
 					num2 = vector.y;
-					array[num3] = num2.ToString(CultureInfo.InvariantCulture);
+					array[num3] = num2.ToString("G9", CultureInfo.InvariantCulture.NumberFormat);
 					array[5] = "|";
 					int num4 = 6;
 					num2 = vector.z;
-					array[num4] = num2.ToString(CultureInfo.InvariantCulture);
+					array[num4] = num2.ToString("G9", CultureInfo.InvariantCulture.NumberFormat);
 					text = string.Concat(array);
 				}
 			}
 			bool flag = this.BasePartPosStt != null && this.BasePartPosStt != null;
 			bool flag2 = this.BasePartPosEnd != null && this.BasePartPosEnd != null;
-			IFormatProvider invariantCulture = CultureInfo.InvariantCulture;
 			string text2 = "{0}/{1}/{2}/{3}/{4}/{5}/{6}/{7}/{8}/{9}/{10}";
 			object[] array2 = new object[11];
-			array2[0] = this.Id.ToString(CultureInfo.InvariantCulture);
+			array2[0] = this.Id.ToString("D", CultureInfo.InvariantCulture.NumberFormat);
 			array2[1] = this.Name;
-			array2[2] = this.Length.ToString(CultureInfo.InvariantCulture);
-			array2[3] = this.Speed.ToString(CultureInfo.InvariantCulture);
+			array2[2] = this.Length.ToString("G9", CultureInfo.InvariantCulture.NumberFormat);
+			array2[3] = this.Speed.ToString("D", CultureInfo.InvariantCulture.NumberFormat);
 			int num5 = 4;
 			object obj;
 			if (!flag)
@@ -155,7 +154,7 @@ namespace CyclopsDockingMod.Routing
 			else
 			{
 				Vector3 vector2 = this.BasePartPosStt.Value;
-				obj = vector2.x.ToString(CultureInfo.InvariantCulture);
+				obj = vector2.x.ToString("G9", CultureInfo.InvariantCulture.NumberFormat);
 			}
 			array2[num5] = obj;
 			int num6 = 5;
@@ -165,7 +164,7 @@ namespace CyclopsDockingMod.Routing
 			else
 			{
 				Vector3 vector2 = this.BasePartPosStt.Value;
-				obj2 = vector2.y.ToString(CultureInfo.InvariantCulture);
+				obj2 = vector2.y.ToString("G9", CultureInfo.InvariantCulture.NumberFormat);
 			}
 			array2[num6] = obj2;
 			int num7 = 6;
@@ -175,7 +174,7 @@ namespace CyclopsDockingMod.Routing
 			else
 			{
 				Vector3 vector2 = this.BasePartPosStt.Value;
-				obj3 = vector2.z.ToString(CultureInfo.InvariantCulture);
+				obj3 = vector2.z.ToString("G9", CultureInfo.InvariantCulture.NumberFormat);
 			}
 			array2[num7] = obj3;
 			int num8 = 7;
@@ -185,7 +184,7 @@ namespace CyclopsDockingMod.Routing
 			else
 			{
 				Vector3 vector2 = this.BasePartPosEnd.Value;
-				obj4 = vector2.x.ToString(CultureInfo.InvariantCulture);
+				obj4 = vector2.x.ToString("G9", CultureInfo.InvariantCulture.NumberFormat);
 			}
 			array2[num8] = obj4;
 			int num9 = 8;
@@ -195,7 +194,7 @@ namespace CyclopsDockingMod.Routing
 			else
 			{
 				Vector3 vector2 = this.BasePartPosEnd.Value;
-				obj5 = vector2.y.ToString(CultureInfo.InvariantCulture);
+				obj5 = vector2.y.ToString("G9", CultureInfo.InvariantCulture.NumberFormat);
 			}
 			array2[num9] = obj5;
 			int num10 = 9;
@@ -205,11 +204,11 @@ namespace CyclopsDockingMod.Routing
 			else
 			{
 				Vector3 vector2 = this.BasePartPosEnd.Value;
-				obj6 = vector2.z.ToString(CultureInfo.InvariantCulture);
+				obj6 = vector2.z.ToString("G9", CultureInfo.InvariantCulture.NumberFormat);
 			}
 			array2[num10] = obj6;
 			array2[10] = text;
-			return string.Format(invariantCulture, text2, array2);
+			return string.Format(CultureInfo.InvariantCulture, text2, array2);
 		}
 	}
 }

@@ -81,7 +81,7 @@ namespace CyclopsDockingMod
         public static int? TrimInt(string val)
         {
             string intStr = TrimVal(val);
-            if (!string.IsNullOrWhiteSpace(intStr) && int.TryParse(intStr, NumberStyles.Integer, CultureInfo.InvariantCulture, out int parsed))
+            if (!string.IsNullOrWhiteSpace(intStr) && int.TryParse(intStr, NumberStyles.Integer, CultureInfo.InvariantCulture.NumberFormat, out int parsed))
                 return parsed;
             return null;
         }
@@ -89,7 +89,7 @@ namespace CyclopsDockingMod
         public static float? TrimFloat(string val)
         {
             string floatStr = TrimVal(val);
-            if (!string.IsNullOrWhiteSpace(floatStr) && float.TryParse(floatStr, NumberStyles.Float, CultureInfo.InvariantCulture, out float parsed))
+            if (!string.IsNullOrWhiteSpace(floatStr) && float.TryParse(floatStr, NumberStyles.Float | NumberStyles.AllowThousands | NumberStyles.AllowTrailingSign, CultureInfo.InvariantCulture.NumberFormat, out float parsed))
                 return parsed;
             return null;
         }
@@ -296,17 +296,17 @@ namespace CyclopsDockingMod
                         res += ("," + Environment.NewLine);
                     res += ("\t{" + Environment.NewLine);
                     res += ($"\t\t\"id\": \"{bp.id}\"," + Environment.NewLine);
-                    res += ($"\t\t\"cellX\": \"{bp.cellX.ToString(CultureInfo.InvariantCulture)}\"," + Environment.NewLine);
-                    res += ($"\t\t\"cellY\": \"{bp.cellY.ToString(CultureInfo.InvariantCulture)}\"," + Environment.NewLine);
-                    res += ($"\t\t\"cellZ\": \"{bp.cellZ.ToString(CultureInfo.InvariantCulture)}\"," + Environment.NewLine);
-                    res += ($"\t\t\"index\": \"{bp.index}\"," + Environment.NewLine);
-                    res += ($"\t\t\"positionX\": \"{bp.positionX.ToString(CultureInfo.InvariantCulture)}\"," + Environment.NewLine);
-                    res += ($"\t\t\"positionY\": \"{bp.positionY.ToString(CultureInfo.InvariantCulture)}\"," + Environment.NewLine);
-                    res += ($"\t\t\"positionZ\": \"{bp.positionZ.ToString(CultureInfo.InvariantCulture)}\"," + Environment.NewLine);
-                    res += ($"\t\t\"type\": \"{bp.type.ToString(CultureInfo.InvariantCulture)}\"," + Environment.NewLine);
+                    res += ($"\t\t\"cellX\": \"{bp.cellX.ToString("D", CultureInfo.InvariantCulture.NumberFormat)}\"," + Environment.NewLine);
+                    res += ($"\t\t\"cellY\": \"{bp.cellY.ToString("D", CultureInfo.InvariantCulture.NumberFormat)}\"," + Environment.NewLine);
+                    res += ($"\t\t\"cellZ\": \"{bp.cellZ.ToString("D", CultureInfo.InvariantCulture.NumberFormat)}\"," + Environment.NewLine);
+                    res += ($"\t\t\"index\": \"{bp.index.ToString("D", CultureInfo.InvariantCulture.NumberFormat)}\"," + Environment.NewLine);
+                    res += ($"\t\t\"positionX\": \"{bp.positionX.ToString("G9", CultureInfo.InvariantCulture.NumberFormat)}\"," + Environment.NewLine);
+                    res += ($"\t\t\"positionY\": \"{bp.positionY.ToString("G9", CultureInfo.InvariantCulture.NumberFormat)}\"," + Environment.NewLine);
+                    res += ($"\t\t\"positionZ\": \"{bp.positionZ.ToString("G9", CultureInfo.InvariantCulture.NumberFormat)}\"," + Environment.NewLine);
+                    res += ($"\t\t\"type\": \"{bp.type.ToString("D", CultureInfo.InvariantCulture.NumberFormat)}\"," + Environment.NewLine);
                     res += ($"\t\t\"dock\": \"{bp.dock}\"," + Environment.NewLine);
-                    res += ($"\t\t\"signConfig1\": \"{bp.signConfig1.ToString(CultureInfo.InvariantCulture)}\"," + Environment.NewLine);
-                    res += ($"\t\t\"signConfig2\": \"{bp.signConfig2.ToString(CultureInfo.InvariantCulture)}\"," + Environment.NewLine);
+                    res += ($"\t\t\"signConfig1\": \"{bp.signConfig1.ToString("D", CultureInfo.InvariantCulture.NumberFormat)}\"," + Environment.NewLine);
+                    res += ($"\t\t\"signConfig2\": \"{bp.signConfig2.ToString("D", CultureInfo.InvariantCulture.NumberFormat)}\"," + Environment.NewLine);
                     res += ($"\t\t\"signConfig3\": \"{bp.signConfig3.ToString(CultureInfo.InvariantCulture)}\"," + Environment.NewLine);
                     res += ($"\t\t\"signConfig4\": \"{bp.signConfig4}\"" + Environment.NewLine);
                     res += "\t}";

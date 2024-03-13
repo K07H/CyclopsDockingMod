@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Text;
 using CyclopsDockingMod.Controllers;
@@ -270,7 +271,7 @@ namespace CyclopsDockingMod.Routing
 		private static Route AddRoute(List<Vector3> wayPoints, string name = null, int speed = 2, Vector3? basePartPosStt = null, Vector3? basePartPosEnd = null)
 		{
 			int nextRouteId = AutoPilot.GetNextRouteId();
-			string text = ((!string.IsNullOrWhiteSpace(name)) ? name : string.Format(AutoPilot.Lbl_DefaultRouteName, (nextRouteId + 1).ToString()));
+			string text = ((!string.IsNullOrWhiteSpace(name)) ? name : string.Format(AutoPilot.Lbl_DefaultRouteName, (nextRouteId + 1).ToString("D", CultureInfo.InvariantCulture.NumberFormat)));
 			Route route = new Route(nextRouteId, text, wayPoints, AutoPilot.GetRouteLength(wayPoints), speed, basePartPosStt, basePartPosEnd);
 			AutoPilot.Routes.Add(route);
 			return route;
@@ -527,9 +528,7 @@ namespace CyclopsDockingMod.Routing
 		{
 			string text = "";
 			foreach (Route route in AutoPilot.Routes)
-			{
-				text = text + route.Serialize() + Environment.NewLine;
-			}
+				text = (text + route.Serialize() + Environment.NewLine);
 			if (!string.IsNullOrEmpty(text))
 			{
 				string saveFolderPath = FilesHelper.GetSaveFolderPath();

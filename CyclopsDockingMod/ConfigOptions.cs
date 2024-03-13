@@ -68,7 +68,7 @@ namespace CyclopsDockingMod
 			if (str.StartsWith("autoDockingRange="))
 			{
 				int num;
-				if (str.Length <= "autoDockingRange=".Length || str.Length > 10 + "autoDockingRange=".Length || !int.TryParse(str.Substring("autoDockingRange=".Length), NumberStyles.Integer, CultureInfo.InvariantCulture, out num))
+				if (str.Length <= "autoDockingRange=".Length || str.Length > 10 + "autoDockingRange=".Length || !int.TryParse(str.Substring("autoDockingRange=".Length), NumberStyles.Integer, CultureInfo.InvariantCulture.NumberFormat, out num))
 				{
 					Logger.Warning("Bad value « " + str.Substring("autoDockingRange=".Length) + " » for autoDockingRange (must be between 10 and 50). Default value will be used.");
 					return;
@@ -80,10 +80,10 @@ namespace CyclopsDockingMod
 					SubControlFixer.AutoDockingTriggerSqrRange = Mathf.Pow((float)num, 2f);
 					SubControlFixer.AutoDockingUndockSqrRange = Mathf.Pow((float)num + 5f, 2f);
 					SubControlFixer.AutoDockingDetectSqrRange = Mathf.Pow((float)num + 6f, 2f);
-					Logger.Message("Loaded autoDockingRange: " + num.ToString(CultureInfo.InvariantCulture) + "m");
+					Logger.Message("Loaded autoDockingRange: " + num.ToString(CultureInfo.InvariantCulture.NumberFormat) + "m");
 					return;
 				}
-				Logger.Warning("Bad value « " + num.ToString(CultureInfo.InvariantCulture) + " » for autoDockingRange (must be between 10 and 50). Default value will be used.");
+				Logger.Warning("Bad value « " + num.ToString(CultureInfo.InvariantCulture.NumberFormat) + " » for autoDockingRange (must be between 10 and 50). Default value will be used.");
 				return;
 			}
 			else if (str.StartsWith("enableManualDocking="))
@@ -134,7 +134,7 @@ namespace CyclopsDockingMod
 			else if (str.StartsWith("powercellsChargeSpeed="))
 			{
 				int num2;
-				if (str.Length <= "powercellsChargeSpeed=".Length || str.Length > 10 + "powercellsChargeSpeed=".Length || !int.TryParse(str.Substring("powercellsChargeSpeed=".Length), NumberStyles.Integer, CultureInfo.InvariantCulture, out num2))
+				if (str.Length <= "powercellsChargeSpeed=".Length || str.Length > 10 + "powercellsChargeSpeed=".Length || !int.TryParse(str.Substring("powercellsChargeSpeed=".Length), NumberStyles.Integer, CultureInfo.InvariantCulture.NumberFormat, out num2))
 				{
 					Logger.Warning("Bad value « " + str.Substring("powercellsChargeSpeed=".Length) + " » for powercellsChargeSpeed (must be between 1 and 100). Default value will be used.");
 					return;
@@ -144,10 +144,10 @@ namespace CyclopsDockingMod
 					CyclopsDockingModUI.CfgRechargeSpeed = (float)num2;
 					CyclopsDockingModUI.CfgRechargeSpeedOrig = CyclopsDockingModUI.CfgRechargeSpeed;
 					SubRootFixer.CyclopsRechargeSpeed = CyclopsDockingModUI.CfgRechargeSpeed * 0.0004f;
-					Logger.Message("Loaded powercellsChargeSpeed: " + num2.ToString(CultureInfo.InvariantCulture) + "/100");
+					Logger.Message("Loaded powercellsChargeSpeed: " + num2.ToString(CultureInfo.InvariantCulture.NumberFormat) + "/100");
 					return;
 				}
-				Logger.Warning("Bad value « " + num2.ToString(CultureInfo.InvariantCulture) + " » for powercellsChargeSpeed (must be between 1 and 100). Default value will be used.");
+				Logger.Warning("Bad value « " + num2.ToString(CultureInfo.InvariantCulture.NumberFormat) + " » for powercellsChargeSpeed (must be between 1 and 100). Default value will be used.");
 				return;
 			}
 			else if (str.StartsWith("noCyclopsText="))
@@ -186,7 +186,7 @@ namespace CyclopsDockingMod
 			else if (str.StartsWith("defaultTextSize="))
 			{
 				int num3;
-				if (str.Length <= "defaultTextSize=".Length || str.Length > 20 + "defaultTextSize=".Length || !int.TryParse(str.Substring("defaultTextSize=".Length), NumberStyles.Integer, CultureInfo.InvariantCulture, out num3))
+				if (str.Length <= "defaultTextSize=".Length || str.Length > 20 + "defaultTextSize=".Length || !int.TryParse(str.Substring("defaultTextSize=".Length), NumberStyles.Integer, CultureInfo.InvariantCulture.NumberFormat, out num3))
 				{
 					Logger.Warning("Bad value « " + str.Substring("defaultTextSize=".Length) + " » for sign's text size (must be between -3 and 3). Default value will be used.");
 					return;
@@ -195,16 +195,16 @@ namespace CyclopsDockingMod
 				{
 					CyclopsDockingModUI.CfgSignTextScale = num3;
 					CyclopsDockingModUI.CfgSignTextScaleOrig = CyclopsDockingModUI.CfgSignTextScale;
-					Logger.Message("Loaded defaultTextSize: " + CyclopsDockingModUI.CfgSignTextScale.ToString(CultureInfo.InvariantCulture));
+					Logger.Message("Loaded defaultTextSize: " + CyclopsDockingModUI.CfgSignTextScale.ToString(CultureInfo.InvariantCulture.NumberFormat));
 					return;
 				}
-				Logger.Warning("Bad value « " + num3.ToString(CultureInfo.InvariantCulture) + " » for sign's text size (must be between -3 and 3). Default value will be used.");
+				Logger.Warning("Bad value « " + num3.ToString(CultureInfo.InvariantCulture.NumberFormat) + " » for sign's text size (must be between -3 and 3). Default value will be used.");
 				return;
 			}
 			else if (str.StartsWith("defaultTextColor="))
 			{
 				int num4;
-				if (str.Length <= "defaultTextColor=".Length || str.Length > 20 + "defaultTextColor=".Length || !int.TryParse(str.Substring("defaultTextColor=".Length), NumberStyles.Integer, CultureInfo.InvariantCulture, out num4))
+				if (str.Length <= "defaultTextColor=".Length || str.Length > 20 + "defaultTextColor=".Length || !int.TryParse(str.Substring("defaultTextColor=".Length), NumberStyles.Integer, CultureInfo.InvariantCulture.NumberFormat, out num4))
 				{
 					Logger.Warning("Bad value « " + str.Substring("defaultTextColor=".Length) + " » for sign's text color (must be between 0 and 7). Default value will be used.");
 					return;
@@ -217,7 +217,7 @@ namespace CyclopsDockingMod
 					Logger.Message("Loaded defaultTextColor: " + CyclopsDockingModUI.CfgSignTextColor);
 					return;
 				}
-				Logger.Warning("Bad value « " + num4.ToString(CultureInfo.InvariantCulture) + " » for sign's text color (must be between 0 and 7). Default value will be used.");
+				Logger.Warning("Bad value « " + num4.ToString(CultureInfo.InvariantCulture.NumberFormat) + " » for sign's text color (must be between 0 and 7). Default value will be used.");
 				return;
 			}
 			else if (str.StartsWith("defaultBackground="))
@@ -241,7 +241,7 @@ namespace CyclopsDockingMod
 			else if (str.StartsWith("ladderTintColor="))
 			{
 				int num5;
-				if (str.Length <= "ladderTintColor=".Length || str.Length > 10 + "ladderTintColor=".Length || !int.TryParse(str.Substring("ladderTintColor=".Length), NumberStyles.Integer, CultureInfo.InvariantCulture, out num5))
+				if (str.Length <= "ladderTintColor=".Length || str.Length > 10 + "ladderTintColor=".Length || !int.TryParse(str.Substring("ladderTintColor=".Length), NumberStyles.Integer, CultureInfo.InvariantCulture.NumberFormat, out num5))
 				{
 					Logger.Warning("Bad value « " + str.Substring("ladderTintColor=".Length) + " » for ladder's tint color (must be between 0 and 9). Default value will be used.");
 					return;
@@ -254,7 +254,7 @@ namespace CyclopsDockingMod
 					Logger.Message("Loaded ladderTintColor: " + CyclopsDockingModUI.CfgLadderTintColor);
 					return;
 				}
-				Logger.Warning("Bad value « " + num5.ToString(CultureInfo.InvariantCulture) + " » for ladder's tint color (must be between 0 and 9). Default value will be used.");
+				Logger.Warning("Bad value « " + num5.ToString(CultureInfo.InvariantCulture.NumberFormat) + " » for ladder's tint color (must be between 0 and 9). Default value will be used.");
 				return;
 			}
 			else if (str.StartsWith("basePieceName="))
@@ -335,7 +335,7 @@ namespace CyclopsDockingMod
 									" » for ",
 									keyValuePair.Key.TrimEnd(new char[] { '=' }),
 									" (must be between 1 and ",
-									keyValuePair.Value.ToString(CultureInfo.InvariantCulture),
+									keyValuePair.Value.ToString(CultureInfo.InvariantCulture.NumberFormat),
 									" characters maximum). Default value will be used."
 								}));
 								break;

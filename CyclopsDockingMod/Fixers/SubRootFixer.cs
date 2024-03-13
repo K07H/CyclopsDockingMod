@@ -61,18 +61,13 @@ namespace CyclopsDockingMod.Fixers
 				if (sqrMagnitude > SubControlFixer.AutoDockingTriggerSqrRange)
 				{
 					string text = "Found Cyclops docked but too far away from dock ({0}m) at coordinates {1} {2} {3}. Undocking it.";
-					object[] array = new object[4];
-					array[0] = Mathf.Sqrt(sqrMagnitude).ToString("0.00", CultureInfo.InvariantCulture);
-					int num = 1;
 					vector = transform.position;
-					array[num] = vector.x.ToString("0.00", CultureInfo.InvariantCulture);
-					int num2 = 2;
-					vector = transform.position;
-					array[num2] = vector.y.ToString("0.00", CultureInfo.InvariantCulture);
-					int num3 = 3;
-					vector = transform.position;
-					array[num3] = vector.z.ToString("0.00", CultureInfo.InvariantCulture);
-					Logger.Message(text, array);
+					Logger.Message(text, new object[4] { 
+						Mathf.Sqrt(sqrMagnitude).ToString("0.00", CultureInfo.InvariantCulture.NumberFormat),
+						vector.x.ToString("0.00", CultureInfo.InvariantCulture.NumberFormat),
+                        vector.y.ToString("0.00", CultureInfo.InvariantCulture.NumberFormat),
+                        vector.z.ToString("0.00", CultureInfo.InvariantCulture.NumberFormat)
+                    });
 					SubControlFixer.CleanUp(SubControlFixer.DockedSubs[component.Id], component.Id, true);
 					SubControlFixer.ToggleTrap(__instance, false, false);
 					if (SubControlFixer.DockedSubs[component.Id].trapOpened)

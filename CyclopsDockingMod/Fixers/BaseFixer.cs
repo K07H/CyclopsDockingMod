@@ -91,7 +91,7 @@ namespace CyclopsDockingMod.Fixers
             {
                 Logger.Message("Loading base parts from \"" + text + "\"...");
                 int loadedFromTxt = 0;
-                string[] array;
+                string[] array = null;
                 try
                 {
                     array = File.ReadAllLines(text, Encoding.UTF8);
@@ -101,35 +101,41 @@ namespace CyclopsDockingMod.Fixers
 					array = null;
                     Logger.Error("Exception caught while loading base parts from TXT. Exception=[" + ex.ToString() + "]");
                 }
-                if (array != null && array.Length != 0)
-                {
+                if (array != null && array.Length > 0)
                     foreach (string text2 in array)
-                    {
-                        if (text2.Length > 10 && text2.Contains("/"))
+                        if (text2 != null && text2.Length > 10 && text2.Contains("/"))
                         {
-                            string[] array3 = text2.Split(new char[] { '/' }, System.StringSplitOptions.RemoveEmptyEntries);
-                            int cellX;
-                            int cellY;
-                            int cellZ;
-                            int index;
-                            float posX;
-                            float posY;
-                            float posZ;
-                            int type;
-                            int signConfig1;
-                            int signConfig2;
-                            if (array3 != null && array3.Length == 14 && int.TryParse(array3[1], NumberStyles.Integer, CultureInfo.InvariantCulture, out cellX) && int.TryParse(array3[2], NumberStyles.Integer, CultureInfo.InvariantCulture, out cellY) && int.TryParse(array3[3], NumberStyles.Integer, CultureInfo.InvariantCulture, out cellZ) && int.TryParse(array3[4], NumberStyles.Integer, CultureInfo.InvariantCulture, out index) && index >= 0 && float.TryParse(array3[5], NumberStyles.Float, CultureInfo.InvariantCulture, out posX) && float.TryParse(array3[6], NumberStyles.Float, CultureInfo.InvariantCulture, out posY) && float.TryParse(array3[7], NumberStyles.Float, CultureInfo.InvariantCulture, out posZ) && int.TryParse(array3[8], NumberStyles.Integer, CultureInfo.InvariantCulture, out type) && type >= 0 && int.TryParse(array3[10], NumberStyles.Integer, CultureInfo.InvariantCulture, out signConfig1) && int.TryParse(array3[11], NumberStyles.Integer, CultureInfo.InvariantCulture, out signConfig2))
+                            string[] array3 = text2.Split(new char[] { '/' }, System.StringSplitOptions.None);
+                            if (array3 != null)
                             {
-                                string dock = ((string.IsNullOrWhiteSpace(array3[9]) || array3[9] == "?") ? null : array3[9]);
-                                BasePart basePart = new BasePart(array3[0], new Int3(cellX, cellY, cellZ), index, new Vector3(posX, posY, posZ), type, dock, BaseFixer.GetBaseRoot(array3[0]), BaseFixer.GetSubRoot(dock), signConfig1, signConfig2, string.Compare(array3[12], "True", true, CultureInfo.InvariantCulture) == 0, BaseFixer.RestoreSignElements(array3[13]));
-                                BaseFixer.BaseParts.Add(basePart);
-                                if (dock != null)
-                                    SubControlFixer.DockedSubs[dock] = basePart;
-								++loadedFromTxt;
+                                if (array3.Length == 14)
+                                {
+                                    if (int.TryParse(array3[1], NumberStyles.Integer, CultureInfo.InvariantCulture.NumberFormat, out int cellX) && 
+										int.TryParse(array3[2], NumberStyles.Integer, CultureInfo.InvariantCulture.NumberFormat, out int cellY) && 
+										int.TryParse(array3[3], NumberStyles.Integer, CultureInfo.InvariantCulture.NumberFormat, out int cellZ) && 
+										int.TryParse(array3[4], NumberStyles.Integer, CultureInfo.InvariantCulture.NumberFormat, out int index) && index >= 0 && 
+										float.TryParse(array3[5], NumberStyles.Float | NumberStyles.AllowThousands | NumberStyles.AllowTrailingSign, CultureInfo.InvariantCulture.NumberFormat, out float posX) && 
+										float.TryParse(array3[6], NumberStyles.Float | NumberStyles.AllowThousands | NumberStyles.AllowTrailingSign, CultureInfo.InvariantCulture.NumberFormat, out float posY) && 
+										float.TryParse(array3[7], NumberStyles.Float | NumberStyles.AllowThousands | NumberStyles.AllowTrailingSign, CultureInfo.InvariantCulture.NumberFormat, out float posZ) && 
+										int.TryParse(array3[8], NumberStyles.Integer, CultureInfo.InvariantCulture.NumberFormat, out int type) && type >= 0 && 
+										int.TryParse(array3[10], NumberStyles.Integer, CultureInfo.InvariantCulture.NumberFormat, out int signConfig1) && 
+										int.TryParse(array3[11], NumberStyles.Integer, CultureInfo.InvariantCulture.NumberFormat, out int signConfig2) &&
+										bool.TryParse(array3[12], out bool signConfig3))
+                                    {
+                                        string dock = ((string.IsNullOrWhiteSpace(array3[9]) || array3[9] == "?") ? null : array3[9]);
+                                        BasePart basePart = new BasePart(array3[0], new Int3(cellX, cellY, cellZ), index, new Vector3(posX, posY, posZ), type, dock, BaseFixer.GetBaseRoot(array3[0]), BaseFixer.GetSubRoot(dock), signConfig1, signConfig2, signConfig3, BaseFixer.RestoreSignElements(array3[13]));
+                                        BaseFixer.BaseParts.Add(basePart);
+                                        if (dock != null)
+                                            SubControlFixer.DockedSubs[dock] = basePart;
+                                        ++loadedFromTxt;
+                                    }
+                                    else
+                                        Logger.Warning($"Failed parsing one of the base part values. [{string.Join("/", array3)}]");
+                                }
+                                else
+                                    Logger.Warning($"Found saved base part with incorrect amount of values ({array3.Length} instead of 14).");
                             }
                         }
-                    }
-                }
                 Logger.Message($"Loaded {loadedFromTxt} base parts from TXT.");
             }
 
@@ -181,18 +187,10 @@ namespace CyclopsDockingMod.Fixers
 			bool noBaseParts = true;
 			if (BaseFixer.BaseParts != null && BaseFixer.BaseParts.Count > 0)
 				foreach (BasePart basePart in BaseFixer.BaseParts)
-					if (basePart.type >= 0 && !string.IsNullOrEmpty(basePart.id))
+					if (basePart != null && basePart.type >= 0 && !string.IsNullOrEmpty(basePart.id))
                     {
                         noBaseParts = false;
-                        BaseRoot root = basePart.root;
-						Transform transform;
-						if (root == null)
-							transform = null;
-						else
-						{
-							GameObject gameObject = root.gameObject;
-							transform = ((gameObject != null) ? gameObject.transform : null);
-						}
+						Transform transform = basePart.root?.gameObject?.transform;
 						System.Tuple<int, int, bool, string> signConfig = BaseFixer.GetSignConfig(transform, basePart.position);
 						basePartSaveData.Add(new BasePartSaveData
 						{
@@ -214,19 +212,19 @@ namespace CyclopsDockingMod.Fixers
 						text += string.Format(CultureInfo.InvariantCulture, "{0}/{1}/{2}/{3}/{4}/{5}/{6}/{7}/{8}/{9}/{10}/{11}/{12}/{13}{14}", new object[]
 						{
 							basePart.id,
-							basePart.cell.x.ToString(CultureInfo.InvariantCulture),
-							basePart.cell.y.ToString(CultureInfo.InvariantCulture),
-							basePart.cell.z.ToString(CultureInfo.InvariantCulture),
-							basePart.index.ToString(CultureInfo.InvariantCulture),
-							basePart.position.x.ToString(CultureInfo.InvariantCulture),
-							basePart.position.y.ToString(CultureInfo.InvariantCulture),
-							basePart.position.z.ToString(CultureInfo.InvariantCulture),
-							basePart.type.ToString(CultureInfo.InvariantCulture),
+							basePart.cell.x.ToString("D", CultureInfo.InvariantCulture.NumberFormat),
+							basePart.cell.y.ToString("D", CultureInfo.InvariantCulture.NumberFormat),
+							basePart.cell.z.ToString("D", CultureInfo.InvariantCulture.NumberFormat),
+							basePart.index.ToString("D", CultureInfo.InvariantCulture.NumberFormat),
+							basePart.position.x.ToString("G9", CultureInfo.InvariantCulture.NumberFormat),
+							basePart.position.y.ToString("G9", CultureInfo.InvariantCulture.NumberFormat),
+							basePart.position.z.ToString("G9", CultureInfo.InvariantCulture.NumberFormat),
+							basePart.type.ToString("D", CultureInfo.InvariantCulture.NumberFormat),
 							string.IsNullOrEmpty(basePart.dock) ? "?" : basePart.dock,
-							signConfig.Item1.ToString(CultureInfo.InvariantCulture),
-							signConfig.Item2.ToString(CultureInfo.InvariantCulture),
-							signConfig.Item3 ? "True" : "False",
-							signConfig.Item4,
+							signConfig.Item1.ToString("D", CultureInfo.InvariantCulture.NumberFormat),
+							signConfig.Item2.ToString("D", CultureInfo.InvariantCulture.NumberFormat),
+							signConfig.Item3.ToString(CultureInfo.InvariantCulture),
+							string.IsNullOrEmpty(signConfig.Item4) ? "?" : signConfig.Item4,
 							System.Environment.NewLine
 						});
 					}
@@ -309,7 +307,7 @@ namespace CyclopsDockingMod.Fixers
 			if (!string.IsNullOrEmpty(str) && str != "?")
 			{
 				string[] array = str.Split(new char[] { ';' }, System.StringSplitOptions.RemoveEmptyEntries);
-				if (array != null)
+				if (array != null && array.Length > 0)
 				{
 					List<bool> list = new List<bool>();
 					string[] array2 = array;
