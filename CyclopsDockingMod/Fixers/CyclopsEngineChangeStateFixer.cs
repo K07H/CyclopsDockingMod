@@ -74,11 +74,20 @@ namespace CyclopsDockingMod.Fixers
 					if ((bool)CyclopsEngineChangeStateFixer._mouseHoverField.GetValue(__instance))
 					{
 						if (text == "CyclopsAutoPilotCreate")
+						{
+                            if (AutoPilot.IsRecording)
 #if SUBNAUTICA_EXP
-							HandReticle.main.SetText(HandReticle.TextType.Hand, AutoPilot.Lbl_BtnAutoPilot_RecordTooltip, false, GameInput.Button.LeftHand);
+                                HandReticle.main.SetText(HandReticle.TextType.Hand, AutoPilot.Lbl_BtnAutoPilot_StopRecordTooltip, false, GameInput.Button.LeftHand);
 #else
-                            HandReticle.main.SetInteractText(AutoPilot.Lbl_BtnAutoPilot_RecordTooltip, false, HandReticle.Hand.Left);
+                                HandReticle.main.SetInteractText(AutoPilot.Lbl_BtnAutoPilot_RecordTooltip, false, HandReticle.Hand.Left);
 #endif
+                            else
+#if SUBNAUTICA_EXP
+                                HandReticle.main.SetText(HandReticle.TextType.Hand, AutoPilot.Lbl_BtnAutoPilot_RecordTooltip, false, GameInput.Button.LeftHand);
+#else
+                                HandReticle.main.SetInteractText(AutoPilot.Lbl_BtnAutoPilot_RecordTooltip, false, HandReticle.Hand.Left);
+#endif
+                        }
 						else if (text == "CyclopsAutoPilotOn")
 #if SUBNAUTICA_EXP
 							HandReticle.main.SetText(HandReticle.TextType.Hand, AutoPilot.Lbl_BtnAutoPilot_StartTooltip, false, GameInput.Button.LeftHand);

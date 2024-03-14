@@ -63,6 +63,8 @@ namespace CyclopsDockingMod.Routing
 
         internal static string Lbl_BtnAutoPilot_RecordTooltip = "Start recording route";
 
+        internal static string Lbl_BtnAutoPilot_StopRecordTooltip = "Stop recording route";
+
         internal static string Lbl_BtnAutoPilot_StartTooltip = "Start auto-pilot";
 
         internal static string Lbl_BtnAutoPilot_StopTooltip = "Stop auto-pilot";
@@ -239,7 +241,8 @@ namespace CyclopsDockingMod.Routing
 				Transform transform2 = transform.Find("HelmHUDVisuals/Canvas_LeftHUD/EngineOnUI");
 				Transform transform3 = transform.Find("HelmHUDVisuals/Canvas_CenterHUD");
 				AutoPilot.RestoreBtn(transform2, transform3);
-				AutoPilot.ShowHud(transform2, docked);
+                ResetHudTooltips(transform2);
+                AutoPilot.ShowHud(transform2, docked);
 			}
 		}
 
@@ -319,12 +322,24 @@ namespace CyclopsDockingMod.Routing
 			}
 		}
 
+		internal static void ResetHudTooltips(Transform cyclopsHud)
+        {
+            if (cyclopsHud == null)
+                return;
+            var allEngineChangeState = cyclopsHud.GetAllComponentsInChildren<CyclopsEngineChangeState>();
+            if (allEngineChangeState != null && allEngineChangeState.Length > 0)
+                foreach (var engineChangeState in allEngineChangeState)
+                    if (engineChangeState != null)
+						engineChangeState.mouseHover = false;
+        }
+
 		internal static void StopPlayingRoute(string pid, Transform cyclopsHud = null, bool reachedEnd = true, bool endsOnNothing = false)
 		{
 			if (reachedEnd)
 			{
 				AutoPilot.SelectRoute(pid, -1, cyclopsHud, AutoPilot.Lbl_NoRouteSelected);
-				if (endsOnNothing)
+                ResetHudTooltips(cyclopsHud);
+                if (endsOnNothing)
 					AutoPilot.ShowHud(cyclopsHud, false);
 			}
 			if (AutoPilot.SubsPlayingRoutes.ContainsKey(pid))
@@ -337,7 +352,7 @@ namespace CyclopsDockingMod.Routing
 				AutoPilot.SubsPlayingRoutes[pid].AlternateUnstuckBis = false;
 				AutoPilot.SubsPlayingRoutes[pid].IsPlayingRoute = false;
 			}
-		}
+        }
 
 		private static void StopSubPlayingRoute(string pid)
 		{
@@ -474,6 +489,7 @@ namespace CyclopsDockingMod.Routing
 					ErrorMessage.AddDebug(AutoPilot.Lbl_RecordingCancelled);
 				Transform transform = subCtrl.transform.Find("HelmHUD/HelmHUDVisuals/Canvas_LeftHUD/EngineOnUI");
 				AutoPilot.SelectRoute(subCtrl.GetComponent<PrefabIdentifier>().Id, -1, transform, AutoPilot.Lbl_NoRouteSelected);
+				ResetHudTooltips(transform);
 				if (bp == null)
 					AutoPilot.ShowHud(transform, false);
 			}

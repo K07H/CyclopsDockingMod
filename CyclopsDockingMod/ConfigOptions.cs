@@ -35,6 +35,7 @@ namespace CyclopsDockingMod
             new KeyValuePair<string, int>("btnSelectionTooltip=", 80),
             new KeyValuePair<string, int>("btnRenameRouteTooltip=", 80),
             new KeyValuePair<string, int>("btnStartRecordTooltip=", 80),
+            new KeyValuePair<string, int>("btnStopRecordTooltip=", 80),
             new KeyValuePair<string, int>("btnStartAutoPilotTooltip=", 80),
             new KeyValuePair<string, int>("btnStopAutoPilotTooltip=", 80),
             new KeyValuePair<string, int>("btnRemoveRouteTooltip=", 80),
@@ -377,6 +378,11 @@ namespace CyclopsDockingMod
 							if (keyValuePair.Key == "btnStartRecordTooltip=")
 							{
 								AutoPilot.Lbl_BtnAutoPilot_RecordTooltip = text2;
+								break;
+							}
+							if (keyValuePair.Key == "btnStopRecordTooltip=")
+							{
+								AutoPilot.Lbl_BtnAutoPilot_StopRecordTooltip = text2;
 								break;
 							}
 							if (keyValuePair.Key == "btnStartAutoPilotTooltip=")
