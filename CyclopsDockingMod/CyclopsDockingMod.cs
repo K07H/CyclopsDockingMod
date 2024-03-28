@@ -127,12 +127,14 @@ namespace CyclopsDockingMod
 			MethodInfo method47 = typeof(CyclopsHelmHUDManager).GetMethod("StartPiloting", BindingFlags.Instance | BindingFlags.Public);
 			MethodInfo method48 = typeof(CyclopsHelmHUDManagerFixer).GetMethod("StartPiloting_Postfix", BindingFlags.Static | BindingFlags.Public);
 			CyclopsDockingMod.HarmonyInstance.Patch(method47, null, new HarmonyMethod(method48), null, null, null);
+			/*
 			MethodInfo method49 = typeof(uGUI_SignInput).GetMethod("UpdateScale", BindingFlags.Instance | BindingFlags.NonPublic);
 			if (method49 != null)
 			{
 				MethodInfo method50 = typeof(MyuGUI_SignInputFixer).GetMethod("MyUpdateScale_Postfix", BindingFlags.Static | BindingFlags.Public);
 				CyclopsDockingMod.HarmonyInstance.Patch(method49, null, new HarmonyMethod(method50), null, null, null);
 			}
+			*/
 			MethodInfo[] methods = typeof(BuilderTool).GetMethods(BindingFlags.Instance | BindingFlags.NonPublic);
 			if (methods != null)
 			{

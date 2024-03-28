@@ -21,7 +21,7 @@ namespace CyclopsDockingMod.Controllers
 						Transform transform = (Transform)obj;
 						try
 						{
-							if (!string.IsNullOrEmpty(transform.name) && transform.name.StartsWith("Sign(Clone)", true, CultureInfo.InvariantCulture.NumberFormat) && transform.gameObject != null)
+							if (!string.IsNullOrEmpty(transform.name) && transform.name.StartsWith("Sign(Clone)", true, CultureInfo.InvariantCulture) && transform.gameObject != null)
 								Object.Destroy(transform.gameObject);
 						}
 						catch { }
