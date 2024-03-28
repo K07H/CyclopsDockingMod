@@ -3,7 +3,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>CyclopsDockingMod</AssemblyName>
     <Description>A mod for Subnautica that adds a docking base piece to dock your Cyclops. Also adds Cyclops autopilot feature.</Description>
-    <Version>2.1.0</Version>
+    <Version>2.1.1</Version>
     <Authors>OSubMarin (contact@osubmarin.fr)</Authors>
     <Company>LC-IT S.</Company>
     <Product>CyclopsDockingMod</Product>

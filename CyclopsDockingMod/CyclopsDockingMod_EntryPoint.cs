@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace CyclopsDockingMod
 {
-    [BepInPlugin("com.osubmarin.cyclopsdockingmod", "CyclopsDockingMod", "2.1.0")]
+    [BepInPlugin("com.osubmarin.cyclopsdockingmod", "CyclopsDockingMod", "2.1.1")]
 #if SUBNAUTICA_NAUTI
     [BepInDependency("com.snmodding.nautilus", BepInDependency.DependencyFlags.HardDependency)]
 #else
